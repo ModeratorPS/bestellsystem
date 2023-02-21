@@ -83,4 +83,7 @@
 ☑️ "Beim erneut öffnen der Website wird die Bestellung erneut gesendet" wurde behoben<br>
 🟩 Mehr Funktionen beim Account
 ## 2. Setup
-
+> **Info**<br>
+> **Benötigt für das Bestellsystem:**<br>
+> - Webserver für die Website<br>
+> - PHP Datenbank<br>
