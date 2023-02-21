@@ -94,3 +94,4 @@ Nun entpackst du die Datei auf deiner Website
 Besuche nun deine Website unter:<br>
 **www.deine_domain.de**/bestellen/<br>
 Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
+Bildschirm­foto 2023-02-21 um 13.31.16.png
