@@ -102,7 +102,7 @@ Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
 **RESTAURANT_NAME:** Der Name deines Restaurants.<br>
 **DB_NAME:** Der Name deiner Datenbank.<br>
 **MAIL_NEWS:** Denke dir eine E-Mail Adresse aus, mit welcher News gesendet werden. (z.b. news@restaurant.de)<br>
-**MAIL_NEWS_LINK:** Der Link zu der Startseite von deinem Restaurant. (z.b. http://deine_domain.de/bestellen/)<br>
+**MAIL_NEWS_LINK:** Der Link zu der Startseite von deinem Restaurant. (z.b. http://**deine_domain.de**/bestellen/)<br>
 **MAIL_RECHNUNG:** Denke dir eine E-Mail Adresse aus, mit welcher die Rechnungen gesendet werden. (z.b. rechnung@restaurant.de)<br>
 **LINK_TRACKEN:** Schreibe in dieses Feld folgendes rein: (Ersetze das Fette nur mit deiner Domain) http://**deine_domain.de**/bestellen/tracking.php<br>
 **LINK_BEWERTEN:** Schreibe in dieses Feld folgendes rein: (Ersetze das Fette nur mit deiner Domain) http://**deine_domain.de**/bestellen/bewerten/<br>
