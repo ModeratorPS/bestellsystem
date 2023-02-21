@@ -118,4 +118,4 @@ Die Admin Seite findest du unter http://**deine_domain.de**/bestellen/admin.php<
 Logge dich dort mit deinem Passwort ein!<br>
 #### Viel Spaß beim nutzen vom System!
 #### Fragen kannst du hier stellen: https://discord.gg/htr5JHV7FD oder unter der E-Mail Adresse moderatorps@gmail.com
-<iframe src="https://discord.com/widget?id=1007913745642692608&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+<html><iframe src="https://discord.com/widget?id=1007913745642692608&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe></html>
