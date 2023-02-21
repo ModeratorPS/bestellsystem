@@ -1,6 +1,6 @@
 # Bestellsystem V3.1
 ## 1. Funktionen vom Bestellsystem
-
+[Changelog](changelog.md)
 ## 2. Setup
 > **Note**<br>
 > **Benötigt für das Bestellsystem:**
