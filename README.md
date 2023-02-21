@@ -95,3 +95,4 @@ Besuche nun deine Website unter:<br>
 **www.deine_domain.de**/bestellen/<br>
 Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
 ![alt text](setup_1.png)
+**DB_HOST:** Die Host Adresse deines Hosts.
