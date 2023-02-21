@@ -87,4 +87,10 @@
 > **Benötigt für das Bestellsystem:**
 > - Webserver für die Website<br>
 > - PHP Datenbank
-Test
+### 2.1 Upload
+Lade die Datei **bestellen.zip** auf deinen Webserver hoch.<br>
+Nun entpackst du die Datei auf deiner Website
+### 2.2 Setup Datenbank / Website
+Besuche nun deine Website unter:<br>
+**www.deine_domain.de**/bestellen/<br>
+Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
