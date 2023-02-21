@@ -42,15 +42,15 @@
 
 ### Version 2.3
 🟨 Bestellung wird in folgende Kategorien eingeteilt:<br>
-- Bestellt<br>
-- In Bearbeitung<br>
-- Auf dem Weg<br>
-- Fertig<br>
+ Bestellt<br>
+ In Bearbeitung<br>
+ Auf dem Weg<br>
+ Fertig<br>
 🟨 Bearbeiten der Bestellung im 4 Schritten:<br>
-- Claimen<br>
-- Bearbeiten<br>
-- Zustellen<br>
-- Fertig klicken<br>
+ Claimen<br>
+ Bearbeiten<br>
+ Zustellen<br>
+ Fertig klicken<br>
 
 
 ### Version 2.4
@@ -83,7 +83,7 @@
 ☑️ "Beim erneut öffnen der Website wird die Bestellung erneut gesendet" wurde behoben<br>
 🟩 Mehr Funktionen beim Account
 ## 2. Setup
-> **Info**<br>
+> **Danger**<br>
 > **Benötigt für das Bestellsystem:**<br>
 > - Webserver für die Website<br>
 > - PHP Datenbank<br>
