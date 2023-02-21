@@ -88,8 +88,9 @@
 > - Webserver für die Website<br>
 > - PHP Datenbank
 ### 2.1 Upload
-Lade die Datei **bestellen.zip** auf deinen Webserver hoch.<br>
-Nun entpackst du die Datei auf deiner Website
+Lade die Datei **bestellen.zip** auf deinen Webserver hoch und entpacke die Datei auf deiner Website.<br>
+**oder**<br>
+oder lege den Ordner bestellen auf deinen Webserver.
 ### 2.2 Setup Datenbank / Website
 Besuche nun deine Website unter:<br>
 **www.deine_domain.de**/bestellen/<br>
