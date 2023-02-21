@@ -84,6 +84,7 @@
 🟩 Mehr Funktionen beim Account
 ## 2. Setup
 > **Warning**<br>
-> **Benötigt für das Bestellsystem:**<br>
+> **Benötigt für das Bestellsystem:**
 > - Webserver für die Website<br>
-> - PHP Datenbank<br>
+> - PHP Datenbank
+Test
