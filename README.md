@@ -1,6 +1,6 @@
 # Bestellsystem V3.1
 ## 1. Funktionenn vom Bestellsystem
-🟩: Feature hinzugefügt
+🟩: Feature hinzugefügt <br>
 🟨: Feature geändert
 🟧: Feature vorerst deaktiviert
 🟥: Feature gelöscht
