@@ -71,12 +71,20 @@
 🟩 Kidsmode wurde hinzugefügt<br>
 🟨 Bei Getränken kann die Tassengröße ausgewählt werden<br>
 
+
 ### Version 3.1
 🟩 Es gibt eine Show Site, welche auf Kiosk Bildschirmen angezeigt werden kann<br>
 🟨 Login Design angepasst<br>
+
 
 ### Version 3.2
 🚨 Auf den Bewerten Seiten funktionieren die Links im Menü nicht<br>
 🟩 Du kannst Artikel mehr beschreiben / modifizieren<br>
 ☑️ "Beim erneut öffnen der Website wird die Bestellung erneut gesendet" wurde behoben<br>
 🟩 Mehr Funktionen beim Account
+
+
+### Version 3.3
+🟩 Show Site optimiert
+🟩 Neue Admin Features
+🟩 Account neue Features
