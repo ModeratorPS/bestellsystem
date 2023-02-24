@@ -7,35 +7,35 @@
 
 ### Version 1.0 - Das Bestellsystem
 🟩 Bestellen von Artikeln in der Datenbank<br>
-🟩 Abrufen der Bestellung über die Datenbank<br>
+🟩 Abrufen der Bestellung über die Datenbank
 
 
 ### Version 1.1
 🟨 Abrufen der Bestellung über eine Adminsite<br>
-🟩 Zusatz bei Bestellungen<br>
+🟩 Zusatz bei Bestellungen
 
 
 ### Version 1.2
 🟩 Bewerten Feature wurde hinzugefügt<br>
-🚨 Beim erneut öffnen der Website wird die Bestellung erneut gesendet<br>
+🚨 Beim erneut öffnen der Website wird die Bestellung erneut gesendet
 
 
 ### Version 2.0 - Es wird immer einfacher
 🟨 Zum Bewerten wird ein Account benötigt<br>
 🟩 Artikel können über die Adminwebsite hinzugefügt / gelöscht werden<br>
-🟩 Einkaufswagen wurde hinzugefügt<br>
+🟩 Einkaufswagen wurde hinzugefügt
 
 
 ### Version 2.1
 🟩 Neues Design<br>
 🟩 Easy Setup / Resetup Button<br>
-🟩 Open / Close Anzeige<br>
+🟩 Open / Close Anzeige
 
 
 ### Version 2.2
 🟩 Account Passwort zurücksetzen Feature<br>
 🚨 Der Einkaufswagen löst Fehler beim Design der Website aus<br>
-🟧 Der Einkaufswagen wurde vorerst deaktiviert<br>
+🟧 Der Einkaufswagen wurde vorerst deaktiviert
 
 
 ### Version 2.3
@@ -48,17 +48,17 @@
  Claimen<br>
  Bearbeiten<br>
  Zustellen<br>
- Fertig klicken<br>
+ Fertig klicken
 
 
 ### Version 2.4
 🟩 Bestellung kann nun getrackt werden<br>
 🟩 Bestellung kann über das Tracking storniert werden<br>
-🟩 Du kannst dir eine Bestellbestätigung per E-Mail senden lassen<br>
+🟩 Du kannst dir eine Bestellbestätigung per E-Mail senden lassen
 
 
 ### Version 2.5
-🟨 Bestellung senden Design angepasst<br>
+🟨 Bestellung senden Design angepasst
 
 
 ### Version 3.0 - Level sammeln und Checkout
@@ -69,12 +69,12 @@
 ☑️ Bug mit dem Einkaufswagen behoben<br>
 🟩 Übersicht der Produkte über die Startseite<br>
 🟩 Kidsmode wurde hinzugefügt<br>
-🟨 Bei Getränken kann die Tassengröße ausgewählt werden<br>
+🟨 Bei Getränken kann die Tassengröße ausgewählt werden
 
 
 ### Version 3.1
 🟩 Es gibt eine Show Site, welche auf Kiosk Bildschirmen angezeigt werden kann<br>
-🟨 Login Design angepasst<br>
+🟨 Login Design angepasst
 
 
 ### Version 3.2
@@ -85,6 +85,6 @@
 
 
 ### Version 3.3
-🟩 Show Site optimiert
-🟩 Neue Admin Features
+🟩 Show Site optimiert<br>
+🟩 Neue Admin Features<br>
 🟩 Account neue Features
