@@ -1,4 +1,4 @@
-# Bestellsystem V3.1
+# Bestellsystem V3.3
 ## 1. Funktionen vom Bestellsystem
 [Changelog](changelog.md)
 ## 2. Setup
@@ -34,5 +34,7 @@ Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
 ## 3. Admin
 Die Admin Seite findest du unter http://**deine_domain.de**/bestellen/admin.php<br>
 Logge dich dort mit deinem Passwort ein!<br>
+## 4. Show Site Setup
+Tutorial kommt bald!
 #### Viel Spaß beim nutzen vom System!
 #### Fragen kannst du hier stellen: https://discord.gg/htr5JHV7FD oder unter der E-Mail Adresse moderatorps@gmail.com
