@@ -88,3 +88,8 @@
 🟩 Show Site optimiert<br>
 🟩 Neue Admin Features<br>
 🟩 Account neue Features
+
+## Version 4.0 - Aufgaben
+🟩 Neues Bewerten Designs mir Rängen und vieles mehr!<br>
+🟩 Neue Admin Features<br>
+🟩 Aufgaben! Beim Setup können 11 Aufgaben erstellt werden, damit die User ihren Rang erhöhen können!
