@@ -93,3 +93,7 @@
 🟩 Neues Bewerten Designs mir Rängen und vieles mehr!<br>
 🟩 Neue Admin Features<br>
 🟩 Aufgaben! Beim Setup können 11 Aufgaben erstellt werden, damit die User ihren Rang erhöhen können!
+
+### Version 4.1
+🟨 Du kannst die nächste Aufgabe erst sehen, wenn du die davor erledigt hast!<br>
+☑️ Account fehler und Aufgaben fehler behoben!<br>
