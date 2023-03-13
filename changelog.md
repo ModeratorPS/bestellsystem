@@ -97,3 +97,9 @@
 ### Version 4.1
 🟨 Du kannst die nächste Aufgabe erst sehen, wenn du die davor erledigt hast!<br>
 ☑️ Account fehler und Aufgaben fehler behoben!<br>
+
+### Version 4.2
+🟩 Smileys bei der Show Site für die Wartezeit<br>
+🟩 Siri Feature<br>
+🚨 Komplexe Passwörter Funktionieren mit Siri nicht!<br>
+☑️ Tabellen formatierung behoben<br>
