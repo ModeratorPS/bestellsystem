@@ -1,4 +1,4 @@
-# Bestellsystem V4.1
+# Bestellsystem V4.2
 ## 1. Funktionen vom Bestellsystem
 [Changelog](changelog.md)
 ## 2. Setup
