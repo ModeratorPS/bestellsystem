@@ -41,9 +41,3 @@ Logge dich dort mit deinem Passwort ein!<br>
 Tutorial kommt bald!
 #### Viel Spaß beim nutzen vom System!
 #### Fragen kannst du hier stellen: https://discord.gg/htr5JHV7FD oder unter der E-Mail Adresse moderatorps@gmail.com
-
-
-
-
-
-Hallo
