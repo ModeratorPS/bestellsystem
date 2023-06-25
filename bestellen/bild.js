@@ -5,8 +5,8 @@ input3.addEventListener("change", function () {
     var input3_w = input3_q.options[input3_q.selectedIndex].getAttribute('data-bild-w');
     var input3_h = input3_q.options[input3_q.selectedIndex].getAttribute('data-bild-h');
     let bild = document.getElementById('image');
-    if (input3_bild == null) {
-        var input3_bild = "images/error.jpg";
+    if (input3_bild == "") {
+        var input3_bild = "../images/error.jpg";
         var input3_w = "734";
         var input3_h = "864";
     }

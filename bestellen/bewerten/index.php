@@ -1,4 +1,13 @@
 <?php
+require_once "../config/config.php";
+$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
+$nr_result3 = mysqli_query($link, $nr_3);
+$nr3 = mysqli_num_rows($nr_result3);
+if ($nr3 == 0) {
+  header('location: ../index.php');
+}
+?>
+<?php
 // Initialize the session
 session_start();
  
@@ -63,29 +72,33 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             </a>
           </div>
           <div class="u-nav-container">
-            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="index.php" style="padding: 10px 20px;">Startseite</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Bestellen.php" style="padding: 10px 20px;">Bestellen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/index.php" style="padding: 10px 20px;">Home</a>
-</li></ul>
+            <ul class="u-nav u-unstyled u-nav-1"><?php
+$lines = file('../config/menu_normal_1.txt');
+foreach($lines as $line) {
+  echo $line;
+}
+?></ul>
           </div>
           <div class="u-nav-container-collapse">
             <div class="u-align-center u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
               <div class="u-inner-container-layout u-sidenav-overflow">
                 <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.php">Startseite</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Bestellen.php">Bestellen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/index.php">Home</a>
-</li></ul>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><?php
+$lines = file('../config/menu_normal_2.txt');
+foreach($lines as $line) {
+  echo $line;
+}
+?></ul>
               </div>
             </div>
             <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
           </div>
         </nav>
-        <p class="u-text u-text-default u-text-1"><?php require_once "../config.php"; echo $RESTAURANT_NAME; ?></p>
+        <p class="u-text u-text-default u-text-1"><?php require_once "../config/config.php"; echo $RESTAURANT_NAME; ?></p>
         <h4 class="u-text u-text-default u-text-1">Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Willkommen bei den Bewertungen</h4><?php
 echo '<a href="logout.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Logout</a>';
 echo '<a href="reset-password.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Passwort ändern</a>';
-echo '<a href="../index-account.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Dein Account</a>';
+echo '<a href="../account/index.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Dein Account</a>';
 ?>
       </div></header>
 
@@ -104,34 +117,41 @@ echo '<a href="../index-account.php" style="background-color: #5B67FF; font-size
     </form><br><br><br>
 
 <?php
-require_once "../config.php";
+require_once "../config/config.php";
 
-$query = "SELECT * FROM `bewertungen`";
+$query = "SELECT * FROM `bewertungen` ORDER BY `id` DESC";
 $result = mysqli_query($link, $query); 
 while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
     $usern = $zeile['username'];
     $sql_rang = "SELECT * FROM `users` WHERE `username` = \"$usern\"";
     $result2 = mysqli_query($link, $sql_rang);
     $num_row = mysqli_num_rows($result2);
+    $team = False;
     while($zeile2 = mysqli_fetch_array( $result2, MYSQLI_ASSOC)) {
       if ($zeile2['bewerten_rang'] == 'Admin') {
         $rang_icon = '<img src="../role_icons/Admin.png" height="25" width="25">';
         $color = '#d83f3f';
+        $team = True;
       } else if ($zeile2['bewerten_rang'] == 'Chef') {
         $rang_icon = '<img src="../role_icons/Chef2.png" height="25" width="25">';
         $color = '#ff2e4c';
+        $team = True;
       } else if ($zeile2['bewerten_rang'] == 'Developer') {
         $rang_icon = '<img src="../role_icons/Developer2.png" height="25" width="25">';
         $color = '#1facbd';
+        $team = True;
       } else if ($zeile2['bewerten_rang'] == 'Manager') {
         $rang_icon = '<img src="../role_icons/Manager.png" height="25" width="25">';
         $color = '#115bec';
+        $team = True;
       } else if ($zeile2['bewerten_rang'] == 'Moderator') {
         $rang_icon = '<img src="../role_icons/Moderator.png" height="25" width="25">';
         $color = '#4b96dc';
+        $team = True;
       } else if ($zeile2['bewerten_rang'] == 'Supporter') {
         $rang_icon = '<img src="../role_icons/Supporter.png" height="25" width="25">';
         $color = '#4b96dc';
+        $team = True;
       } else if ($zeile2['bewerten_rang'] == '') {
         $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
         $color = 'black';
@@ -171,17 +191,29 @@ while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
       } else if ($zeile2['bewerten_rang'] >= 22) {
         $rang_icon = '<img src="../role_icons/22+.png" height="25" width="25">';
         $color = 'black';
-      } 
+      }
+    }
+    $nr_0 = "SELECT * FROM `module` WHERE `name` = 'Aufgaben' and `status` = 'on'";
+    $nr_result0 = mysqli_query($link, $nr_0);
+    $nr0 = mysqli_num_rows($nr_result0);
+    if ($nr0 == 0) {
+      if ($team == False) {
+        $rang = "User";
+        $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
+        $color = 'black';
+      }
     }
     mysqli_free_result($result2);
     if ($num_row == 0) {
       echo '<h3 style="color: gray"><s>'.$usern.'</s> (Gelöschter Nutzer)</h3>';
       echo '<h4 style="color: gray">'.$zeile['text'].'</h4>';
+      echo '<h6 style="color: gray">'.$zeile['time'].'</h6>';
       echo '<br>';
       echo '<br>';
     } else {
       echo '<h3 style="color: '.$color.';">'.$usern.' '.$rang_icon.'</h3>';
       echo '<h4 style="color: '.$color.';">'.$zeile['text'].'</h4>';
+      echo '<h6 style="color: gray">'.$zeile['time'].'</h6>';
       echo '<br>';
       echo '<br>';
     }
