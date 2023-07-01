@@ -1,6 +1,15 @@
 <?php
+require_once "../config/config.php";
+$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
+$nr_result3 = mysqli_query($link, $nr_3);
+$nr3 = mysqli_num_rows($nr_result3);
+if ($nr3 == 0) {
+  header('location: ../index.php');
+}
+?>
+<?php
 // Include config file
-require_once "../config.php";
+require_once "../config/config.php";
  
 // Define variables and initialize with empty values
 $username = $mail = $password = $confirm_password = "";
@@ -183,25 +192,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </a>
           </div>
           <div class="u-nav-container">
-            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="index.php" style="padding: 10px 20px;">Startseite</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="Bestellen.php" style="padding: 10px 20px;">Bestellen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/index.php" style="padding: 10px 20px;">Home</a>
-</li></ul>
+            <ul class="u-nav u-unstyled u-nav-1"><?php
+$lines = file('../config/menu_normal_1.txt');
+foreach($lines as $line) {
+  echo $line;
+}
+?></ul>
           </div>
           <div class="u-nav-container-collapse">
             <div class="u-align-center u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
               <div class="u-inner-container-layout u-sidenav-overflow">
                 <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.php">Startseite</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Bestellen.php">Bestellen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/index.php">Home</a>
-</li></ul>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><?php
+$lines = file('../config/menu_normal_2.txt');
+foreach($lines as $line) {
+  echo $line;
+}
+?></ul>
               </div>
             </div>
             <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
           </div>
         </nav>
-        <p class="u-text u-text-default u-text-1"><?php require_once "../config.php"; echo $RESTAURANT_NAME; ?></p>
+        <p class="u-text u-text-default u-text-1"><?php require_once "../config/config.php"; echo $RESTAURANT_NAME; ?></p>
       </div></header>
 
     <section class="u-clearfix u-grey-5 u-section-2" id="carousel_a603">

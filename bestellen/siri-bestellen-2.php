@@ -2,7 +2,7 @@
 // Initialize the session
 session_start();
 
-require_once "config.php";
+require_once "config/config.php";
 
 $num_row = 1;
 $getted1 = $_SESSION['username'];
