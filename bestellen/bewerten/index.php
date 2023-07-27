@@ -110,14 +110,31 @@ echo '<a href="../account/index.php" style="background-color: #5B67FF; font-size
               <div class="u-container-align-left u-container-style u-layout-cell u-size-30 u-layout-cell-1">
                 <div class="u-container-layout u-container-layout-1">
                   <div class="u-form u-form-1">
-
-    <form action="/bestellen/bewerten/bewertung-senden.php" method="POST" name="form">
-        <input type="text" placeholder="Ihre Bewertung" id="input1" name="input1" required=""><input type="text" id="input2" name="input2" value="<?php echo htmlspecialchars($_SESSION["username"]); ?>" hidden><br><br>
-        <input type="submit" value="submit" class="menu_button">
-    </form><br><br><br>
-
 <?php
 require_once "../config/config.php";
+
+$id = $_SESSION['id'];
+$sql = "SELECT * FROM `users` WHERE `id` = '$id'";
+$result = mysqli_query($link, $sql);
+while ($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
+  $mail = $zeile['mail'];
+}
+$sql2 = "SELECT * FROM `mail_verify` WHERE `confirmed` = '0' AND `mail` = '$mail'";
+$result2 = mysqli_query($link, $sql2);
+$num = mysqli_num_rows($result2);
+if ($num == 1) {
+  echo '<fieldset>
+  <h3>Dieser Account ist noch nicht verifiziert</h3>
+  <a href="verify-mail.php?mail='.$mail.'" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Jetzt verifizieren</a>
+  <h4>Zum Bewerten, muss der Account verifiziert werden!</h4>
+  </fieldset><br><br><br>';
+} else {
+  $user = htmlspecialchars($_SESSION["username"]);
+  echo '<form action="/bestellen/bewerten/bewertung-senden.php" method="POST" name="form">
+  <input type="text" placeholder="Ihre Bewertung" id="input1" name="input1" required=""><input type="text" id="input2" name="input2" value="'.$user.'" hidden><br><br>
+  <input type="submit" value="submit" class="menu_button">
+</form><br><br><br>';
+}
 
 $query = "SELECT * FROM `bewertungen` ORDER BY `id` DESC";
 $result = mysqli_query($link, $query); 
