@@ -18,7 +18,17 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 ?>
  
- <!DOCTYPE html>
+<!DOCTYPE html>
+<style>
+.apple_error{
+  background: #f5f5f5;
+  border: 2px solid #F3C336;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: 1px 2px 4px rgba(0,0,0,.4);
+}
+</style>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
@@ -119,6 +129,25 @@ while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
 mysqli_free_result( $db_erg1 );
 ?>
 </fieldset><br>
+<?php
+  $id = $_SESSION['id'];
+  $sql = "SELECT * FROM `users` WHERE `id` = '$id'";
+  $result = mysqli_query($link, $sql);
+  while ($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
+    $mail = $zeile['mail'];
+  }
+  $sql2 = "SELECT * FROM `mail_verify` WHERE `confirmed` = '0' AND `mail` = '$mail'";
+  $result2 = mysqli_query($link, $sql2);
+  $num = mysqli_num_rows($result2);
+  if ($num == 1) {
+    echo '<fieldset>
+    <h3>Dieser Account ist noch nicht verifiziert</h3>
+    <a href="verify-mail.php?mail='.$mail.'" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Jetzt verifizieren</a>
+    <h4>Um weitere Funktionen freizuschalten, muss der Account verifiziert sein!</h4>
+    </fieldset><br><br>';
+    return;
+  }
+?>
 <fieldset>
   <legend>Bonuspunkte</legend><br><br>
   <h3>Deine Bonuspunkte: <?php

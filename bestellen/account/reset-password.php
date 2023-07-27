@@ -224,7 +224,7 @@ button{
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
             </div><br>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
+                <input type="submit" class="btn btn-primary" value="Bearbeiten"><br>
                 <br><a class="btn btn-link ml-2" href="index.php">Abbrechen</a>
             </div>
     </form>

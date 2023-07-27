@@ -180,7 +180,7 @@ foreach($lines as $line) {
                 <label style="color: #FF8787;"><strong><?php echo $confirm_password_err; ?></strong></label>
             </div><br>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary menu_button" value="Login">
+                <input type="submit" class="btn btn-primary menu_button" value="Bearbeiten"><br>
                 <a class="btn btn-link ml-2" href="index.php">Abbrechen</a>
             </div>
     </form>

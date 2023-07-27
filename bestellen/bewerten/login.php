@@ -73,7 +73,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;                            
                             
                             // Redirect user to welcome page
-                            header("location: index.php");
+                            $nr_3 = "SELECT * FROM `module` WHERE `name` = 'E-Mail verify' and `status` = 'on'";
+                            $nr_result3 = mysqli_query($link, $nr_3);
+                            $nr3 = mysqli_num_rows($nr_result3);
+                            if ($nr3 == 0) {
+                              header('location: index.php');
+                            } else {
+                              $sql_ext = "SELECT * FROM `users` WHERE `username` = '$username'";
+                              $result_ext = mysqli_query($link, $sql_ext);
+                              while ($zeile = mysqli_fetch_array( $result_ext, MYSQLI_ASSOC)) {
+                                $mail = $zeile['mail'];
+                              }
+                              $site = "location: verify-mail.php?mail=".$mail;
+                              header($site);
+                            }
                         } else{
                             // Password is not valid, display a generic error message
                             $password_err = "Ungültiges Passwort!";
