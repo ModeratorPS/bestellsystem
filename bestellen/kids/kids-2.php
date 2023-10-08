@@ -61,7 +61,7 @@ $result1 = mysqli_query($link, $query1);
 
 while($zeile = mysqli_fetch_array( $result1, MYSQLI_ASSOC))
 {
-    echo '<br><a href="kids-senden.php?name='. $_POST['input1'] .'&artikel='. $zeile['artikel'] .'" style="background-color: lightgreen;" class="u-btn u-btn-submit u-button-style"><h3 style="color: gray;">'.$zeile['preis'].' Euro</h3><img src="'. $zeile['bild'] .'" width="'. $zeile['width'] .'" height="'. $zeile['height'] .'"></a>';
+  echo '<br><a href="kids-senden.php?name='. $_POST['input1'] .'&total='.$zeile['preis'].'&artikel='. $zeile['artikel'] .'" style="background-color: lightgreen;" class="u-btn u-btn-submit u-button-style"><h3 style="color: gray;">'.$zeile['preis'].' Euro</h3><img src="'. $zeile['bild'] .'" width="'. $zeile['width'] .'" height="'. $zeile['height'] .'"></a>';
 }
 ?> 
                       </div>

@@ -38,6 +38,41 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     color: white;
 }
 </style>
+<style>
+  .rating {
+      unicode-bidi: bidi-override;
+      direction: rtl;
+  }
+
+  .rating > label {
+      display: inline-block;
+      padding: 10px; /* Größere Polsterung für größere Sterne */
+      font-size: 30px; /* Größere Schriftgröße für größere Sterne */
+      cursor: pointer;
+      color: #ccc; /* Graue Sterne */
+  }
+
+  .rating > input[type="radio"] {
+      display: none;
+  }
+
+  .rating > label:before {
+      content: "\2605";
+  }
+
+  .rating > label:hover:before,
+  .rating > label:hover ~ label:before,
+  .rating > input[type="radio"]:checked ~ label:before {
+      color: gold; /* Goldgelbe Sterne bei Hover und ausgewählten Zustand */
+  }
+  .rating .star-filled {
+      color: gold; /* Color for filled stars */
+  }
+
+  .rating .star-empty {
+      color: #ccc; /* Color for empty stars */
+  }
+</style>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
@@ -130,10 +165,37 @@ if ($num == 1) {
   </fieldset><br><br><br>';
 } else {
   $user = htmlspecialchars($_SESSION["username"]);
-  echo '<form action="/bestellen/bewerten/bewertung-senden.php" method="POST" name="form">
-  <input type="text" placeholder="Ihre Bewertung" id="input1" name="input1" required=""><input type="text" id="input2" name="input2" value="'.$user.'" hidden><br><br>
-  <input type="submit" value="submit" class="menu_button">
-</form><br><br><br>';
+  $sql_last_order = "SELECT * FROM `bewertungen` WHERE `username`='$user' ORDER BY `bewertungen`.`id` DESC LIMIT 1";
+  $sql_last_result = mysqli_query($link, $sql_last_order);
+  $differenzInStunden = 12;
+  foreach ($sql_last_result as $zeile) {
+    $angegebenesDatum = strtotime($zeile['time']);
+    $aktuellesDatum = time();
+    $differenzInSekunden = $aktuellesDatum - $angegebenesDatum;
+    $differenzInStunden = $differenzInSekunden / 3600;
+  }
+  if ($differenzInStunden >= 12) {
+    echo '<form action="/bestellen/bewerten/bewertung-senden.php" method="POST" name="form">
+    <div class="rating">
+      <input type="radio" id="star5" name="rating" value="5">
+      <label for="star5"></label>
+      <input type="radio" id="star4" name="rating" value="4">
+      <label for="star4"></label>
+      <input type="radio" id="star3" name="rating" value="3">
+      <label for="star3"></label>
+      <input type="radio" id="star2" name="rating" value="2">
+      <label for="star2"></label>
+      <input type="radio" id="star1" name="rating" value="1">
+      <label for="star1"></label>
+    </div>
+    <input type="number" id="starsValue" name="starsValue" readonly style="display: none" required>';
+    echo '<input type="text" placeholder="Ihre Bewertung" id="input1" name="input1" required=""><input type="text" id="input2" name="input2" value="'.$user.'" hidden><br><br>';
+  } else {
+    $diff2 = round(12 - $differenzInStunden);
+    echo '<fieldset><p>Du kannst erst wieder in <strong>'.$diff2.' Stunde(n)</strong> Bewerten!</p></fieldset><br><br>';
+  }
+  echo '<input type="submit" value="Senden" id="senden" class="menu_button" style="display: none">
+  </form><br><br><br>';
 }
 
 $query = "SELECT * FROM `bewertungen` ORDER BY `id` DESC";
@@ -229,6 +291,15 @@ while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
       echo '<br>';
     } else {
       echo '<h3 style="color: '.$color.';">'.$usern.' '.$rang_icon.'</h3>';
+      if ($color == "black") {
+        $stars = $zeile['stars'];
+        echo '<div class="rating">';
+        for ($i = 5; $i >= 1; $i--) { // Reverse the loop to start with 5 stars
+          $starClass = ($i <= $stars) ? 'star-filled' : 'star-empty';
+          echo '<span class="' . $starClass . '">&#9733;</span>'; // Use a star character
+        }
+        echo '</div>';
+      }
       echo '<h4 style="color: '.$color.';">'.$zeile['text'].'</h4>';
       echo '<h6 style="color: gray">'.$zeile['time'].'</h6>';
       echo '<br>';
@@ -247,4 +318,16 @@ while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
         </div>
       </div>
     </section>
+    <script>
+        var ratingInputs = document.querySelectorAll('input[name="rating"]');
+        var starsValue = document.getElementById("starsValue");
+        var submit = document.getElementById("senden");
+
+        ratingInputs.forEach(function(input) {
+            input.addEventListener("change", function() {
+                starsValue.value = this.value;
+                submit.style.display = "block";
+            });
+        });
+    </script>
 </body></html><img src="" wid height="" alt="">

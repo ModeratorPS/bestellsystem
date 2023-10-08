@@ -66,6 +66,7 @@
 require_once "../config/config.php";
 
 $input1 = $_GET['name'];
+$input2 = $_GET['total'];
 $input3 = str_replace("%20", " ", $_GET['artikel']);
 $input5 = rand(1000, 9999);
 
@@ -98,7 +99,7 @@ while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
     $new = $zeile['lager'] - 1;
   }
 
-	$query = "INSERT INTO `bestellungen` (`Name`, `Bestellung`, `ID`, `Status`, `TG`) VALUES ('$input1', '$input3', '$input5', '0', 'Klein (KIDSMODE)');"; 
+	$query = "INSERT INTO `bestellungen` (`Name`, `Bestellung`, `ID`, `Status`, `TG`, `total`) VALUES ('$input1', '$input3', '$input5', '0', 'Klein (KIDSMODE)', '$input2');"; 
 	$result = mysqli_query($link, $query); 
 	if( $result )
 	 {

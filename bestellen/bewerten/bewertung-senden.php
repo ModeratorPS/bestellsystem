@@ -12,8 +12,9 @@ require_once "../config/config.php";
 
 $input1 = $_POST['input1'];
 $input2 = $_POST['input2'];
+$starsValue = $_POST['starsValue'];
 
-$query = "INSERT INTO `bewertungen` (`username`, `text`) VALUES ('$input2', '$input1');"; 
+$query = "INSERT INTO `bewertungen` (`username`, `text`, `stars`) VALUES ('$input2', '$input1', '$starsValue');"; 
 $result = mysqli_query($link, $query); 
 if( $result )
  {

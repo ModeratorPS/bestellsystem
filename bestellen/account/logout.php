@@ -2,9 +2,7 @@
 // Initialize the session
 session_start();
 
-if ($_SESSION["loggedin_admin"] === true) {
-    $log = true;
-}
+setcookie("login_cookie", "", time() - 1);
  
 // Unset all of the session variables
 $_SESSION = array();
@@ -13,11 +11,7 @@ $_SESSION = array();
 session_destroy();
  
 // Redirect to login page
-if ($log === true) {
-    header('location: admin-login.php');
-} else {
-    header("location: login.php");
-}
+header("location: ../index.php");
 
 exit;
 ?>

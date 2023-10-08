@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<meta http-equiv="refresh" content="8;fingerprint.php">
+
 <style>
 @media(max-width:768px){
     .card{
@@ -171,6 +174,22 @@
 #progressbar li.active:after {
     background: rgb(252, 103, 49);
 }
+
+#progressbar li.active-red:before,
+#progressbar li.active-red:after {
+    background: #FF6060;
+}
+
+#progressbar li.active-green:before,
+#progressbar li.active-green:after {
+    background: #6EDE5E;
+}
+
+#progressbar li.active-orange:before,
+#progressbar li.active-orange:after {
+    background: #FFB357;
+}
+
 .menu_button {
     color: orange;
     background-color: white;
@@ -186,7 +205,20 @@
 
 .closed_button {
     color: white;
-    background-color: red;
+    background-color: #FF6969;
+    padding: 8px 16px;
+    font-size: 10px;
+    display: flex;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 2px 0px 8px rgb(0 0 0 / 20%);
+    border: unset;
+}
+
+.stor_button {
+    color: white;
+    background-color: #FFAF69;
     padding: 8px 16px;
     font-size: 10px;
     display: flex;
@@ -198,8 +230,8 @@
 }
 
 .open_button {
-    color: gray;
-    background-color: lightgreen;
+    color: black;
+    background-color: #A1FF9B;
     padding: 8px 16px;
     font-size: 10px;
     display: flex;
@@ -220,7 +252,7 @@
     <meta charset="utf-8">
     <meta name="keywords" content="​Author&amp;apos;s cake and desserts for your holiday, ​Few words about myself, ​Catalog, How We Work, Facts &amp;amp; Questions, ​​Best Choice, ​Make an order">
     <meta name="description" content="">
-    <title>Tracking Storniert</title>
+    <title>Startseite</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
 <link rel="stylesheet" href="../Startseite.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
@@ -240,76 +272,88 @@
     <meta property="og:title" content="Startseite">
     <meta property="og:type" content="website">
   </head>
-  <body class="u-body u-xl-mode"><header class="u-clearfix u-header u-header" id="sec-03fb"><div class="u-clearfix u-sheet u-sheet-1">
-        <nav class="u-align-left u-menu u-menu-dropdown u-menu-hamburger u-offcanvas u-menu-1" data-responsive-from="XL">
-          <div class="menu-collapse">
-            <a class="u-button-style u-nav-link" href="#" style="padding: 4px 0px; font-size: calc(1em + 8px);">
-              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5c50"></use></svg>
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-5c50" x="0px" y="0px" viewBox="0 0 302 302" style="enable-background:new 0 0 302 302;" xml:space="preserve" class="u-svg-content"><g><rect y="36" width="302" height="30"></rect><rect y="236" width="302" height="30"></rect><rect y="136" width="302" height="30"></rect>
-</g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-            </a>
-          </div>
-          <div class="u-nav-container">
-            <ul class="u-nav u-unstyled u-nav-1"><?php
-$lines = file('../config/menu_normal_1.txt');
-foreach($lines as $line) {
-  echo $line;
-}
-?></ul>
-          </div>
-          <div class="u-nav-container-collapse">
-            <div class="u-align-center u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-              <div class="u-inner-container-layout u-sidenav-overflow">
-                <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><?php
-$lines = file('../config/menu_normal_2.txt');
-foreach($lines as $line) {
-  echo $line;
-}
-?></ul>
-              </div>
-            </div>
-            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
-          </div>
-        </nav>
-        <p class="u-text u-text-default u-text-1"><?php require_once "../config/config.php"; echo $RESTAURANT_NAME; ?></p><?php
-require_once "../config/config.php";
-$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Account' and `status` = 'on'";
-$nr_result3 = mysqli_query($link, $nr_3);
-$nr3 = mysqli_num_rows($nr_result3);
-if ($nr3 != 0) {
-  if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    echo '<a href="../account/login.php" style="background-color: #FF613D; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account Login</a>';
-  } else {
-    echo '<a href="../account/index.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
-  }
-}
-?>
-      </div></header>
+  <body class="u-body u-xl-mode">
       <section class="u-clearfix u-palette-3-light-3 u-section-1" id="sec-8f5b">
-
+      <div class="progress-track">
+        <br><br>
 <?php
 require_once "../config/config.php";
 
-$input1 = $_POST['input1'];
+$username = "";
+$printid = $_GET['print'];
 
-$sql1 = "SELECT * FROM `bestellungen` WHERE `ID` = \"$input1\" and `Status` = 0";
-$db_erg1 = mysqli_query( $link, $sql1 );
-
-while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
+$sql3 = "SELECT * FROM `fingerprint` WHERE `printid` = '$printid'";
+$db_erg3 = mysqli_query( $link, $sql3 );
+if ( ! $db_erg3 )
 {
-  if ($zeile['Status'] > "0") {
-    echo '<h4>Die Bestellung ist schon in Bearbeitung, und kann nicht mehr storniert werden!</h4>';
-  }
-  else {
-    $sql2 = "UPDATE `bestellungen` SET `Status` = '4' WHERE `ID` = \"$input1\" and `Status` = 0";
-    $db_erg2 = mysqli_query( $link, $sql2 );
-    $trk = str_replace("/tracking/index.php", "/tracking/tracking-senden.php?id=".$input1, $LINK_TRACKEN);
-    echo '<meta http-equiv="refresh" content = "0;url='.$trk.'">';
-  }
+  die('Ungültige Abfrage: ' . mysqli_error());
 }
-mysqli_free_result( $db_erg1 );
+while ($zeile2 = mysqli_fetch_array( $db_erg3, MYSQLI_ASSOC))
+{
+  $username = $zeile2['name'];
+}
+mysqli_free_result( $db_erg3 );
+
+$sql4 = "SELECT * FROM `bestellungen` WHERE `Name` LIKE '%$username%' ORDER BY `bestellungen`.`atd` DESC";
+$db_erg4 = mysqli_query( $link, $sql4 );
+$num_rows = mysqli_num_rows($db_erg4);
+
+if ( $num_rows == 0 ) {
+  echo "<h4>Aktuell keine Bestellungen</h4>";
+  echo '<ul id="progressbar">';
+  echo '<li class="step0" id="step1">Bestellt</li>
+  <li class="step0 text-center" id="step2">In Bearbeitung</li>
+  <li class="step0 text-right" id="step3">Auf dem Weg</li>
+  <li class="step0 text-right" id="step4">Bestellung erfolgreich</li>';
+  echo '</ul>';
+  echo "<br><br>";
+}
+
+while ($zeile = mysqli_fetch_array( $db_erg4, MYSQLI_ASSOC))
+{
+    echo '<ul id="progressbar">';
+    echo "<h4>" . $zeile['Bestellung'] . "</h4>";
+    if ($zeile['Status'] == "0") {
+        echo '<li class="step0 active active-orange" id="step1"><strong>Bestellt</strong></li>
+        <li class="step0 text-center" id="step2"><strong>In Bearbeitung</strong></li>
+        <li class="step0 text-right" id="step3"><strong>Auf dem Weg</strong></li>
+        <li class="step0 text-right" id="step4"><strong>Bestellung erfolgreich</strong></li>';
+    }
+    else if ($zeile['Status'] == "1") {
+        echo '<li class="step0 active active-orange" id="step1"><strong>Bestellt</strong></li>
+        <li class="step0 active active-orange text-center" id="step2"><strong>In Bearbeitung</strong></li>
+        <li class="step0 text-right" id="step3"><strong>Auf dem Weg</strong></li>
+        <li class="step0 text-right" id="step4"><strong>Bestellung erfolgreich</strong></li>';
+    }
+    else if ($zeile['Status'] == "2") {
+        echo '<li class="step0 active active-orange" id="step1"><strong>Bestellt</strong></li>
+        <li class="step0 active active-orange text-center" id="step2"><strong>In Bearbeitung</strong></li>
+        <li class="step0 active active-orange text-right" id="step3"><strong>Auf dem Weg</strong></li>
+        <li class="step0 text-right" id="step4"><strong>Bestellung erfolgreich</li></strong>';
+    }
+    else if ($zeile['Status'] == "3") {
+        echo '<li class="step0 active active-green" id="step1"><strong>Bestellt</strong></li>
+        <li class="step0 active active-green text-center" id="step2"><strong>In Bearbeitung</strong></li>
+        <li class="step0 active active-green text-right" id="step3"><strong>Auf dem Weg</strong></li>
+        <li class="step0 active active-green text-right" id="step4"><strong>Bestellung erfolgreich</li></strong>';
+    }
+    else if ($zeile['Status'] == "4") {
+        echo '<li class="step0 active active-red" id="step1"><strong>Bestellung storniert</strong></li>
+        <li class="step0 text-center" id="step2"><strong>In Bearbeitung</strong></li>
+        <li class="step0 text-right" id="step3"><strong>Auf dem Weg</strong></li>
+        <li class="step0 text-right" id="step4"><strong>Bestellung erfolgreich</strong></li>';
+    }
+    else {
+        echo '<li class="step0" id="step1"><strong>Bestellt</strong></li>
+        <li class="step0 text-center" id="step2"><strong>In Bearbeitung</strong></li>
+        <li class="step0 text-right" id="step3"><strong>Auf dem Weg</strong></li>
+        <li class="step0 text-right" id="step4"><strong>Bestellung erfolgreich</strong></li>';
+    }
+    echo '</ul><br>';
+}
+mysqli_free_result( $db_erg4 );
 ?>
-            
+        </div>
+      </div>
     </section>
 </body></html>

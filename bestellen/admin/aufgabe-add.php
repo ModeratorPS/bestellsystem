@@ -93,13 +93,13 @@ foreach($lines as $line) {
         <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
           <div class="u-layout">
 
-<a class="u-button-style u-nav-link" href="taelle-clear.php?tab=aufgaben">Reset</a>
-<form action="/bestellen/aufgabe-add-senden.php" method="post" name="form">
+<a class="u-button-style u-nav-link" href="tabelle-clear.php?tab=aufgaben">Reset</a>
+<form action="aufgabe-add-senden.php" method="post" name="form">
 <h4>Aufgaben: <?php require_once "../config/config.php"; $query = "SELECT * FROM `aufgaben`"; $result = mysqli_query($link, $query); echo mysqli_num_rows($result); ?> / 11</h4>
 <select id="input1" name="input1">
 <option value="Bewertungen">Bewertungen</option>
 <option value="Bestellungen">Bestellungen</option>
-<option value="Bonuspunkte">Bonuspunkte</option>
+<option disabled>Mehr Aufgaben kommen bald!</option>
 </select><br>
 <input type="number" placeholder="Anzahl" id="input2" name="input2"><br>
 <input type="submit" class="menu_button" name="submit" id="submit">

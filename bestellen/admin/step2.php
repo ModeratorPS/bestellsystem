@@ -110,9 +110,7 @@ while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
   echo "<tr>";
   echo "<td>". $zeile['Bestellzeit'] . "</td>";
   echo "<td>". $zeile['Name'] . "</td>";
-  echo "<td>". $zeile['E-Mail'] . "</td>";
   echo "<td>". $zeile['Bestellung'] . "</td>";
-  echo "<td>". $zeile['Zusatz'] . "</td>";
   echo "<td>". $zeile['ID'] . "</td>";
   echo "<td>". $zeile['Status'] . "</td>";
   echo "<td>". $zeile['TG'] . "</td>";
@@ -132,47 +130,11 @@ $input1 = $_GET['id'];
 $query = "SELECT * FROM `bestellungen` WHERE `ID` = \"$input1\" and `status`='1'";
 $result = mysqli_query($link, $query); 
 while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
-    echo '<option value="'.$zeile['ID'].'">'.$zeile['ID'].'</option>';  
+  echo '<option value="'.$zeile['ID'].'">'.$zeile['ID'].'</option>'; 
+  echo '<input type="text" id="input2" name="input2" placeholder="Preis Produkt" require="" value="'.$zeile['total'].'">';
 }          
 ?> 
 </select>
-<input type="text" id="input2" name="input2" placeholder="Preis Produkt" require="" value="<?php
-require_once "../config/config.php";
-
-$input1 = $_GET['id'];
-
-$sql3 = "SELECT * FROM `bestellungen` WHERE `ID` = \"$input1\" and `status`='1'";
-$db_erg3 = mysqli_query( $link, $sql3 );
-while ($zeile3 = mysqli_fetch_array( $db_erg3, MYSQLI_ASSOC))
-{
-  $order = $zeile3['Bestellung'];
-  $code = $zeile3['code'];
-}
-
-$query6 = "SELECT * FROM `rabattcodes` WHERE `code` = \"$code\""; 
-$result6 = mysqli_query($link, $query6); 
-while ($zeile6 = mysqli_fetch_array( $result6, MYSQLI_ASSOC))
-{
-  $wert = $zeile6['rabatt'];
-}
-
-$query9 = "SELECT * FROM `Artikelliste` WHERE `artikel` = \"$order\""; 
-$result9 = mysqli_query($link, $query9); 
-while ($zeile9 = mysqli_fetch_array( $result9, MYSQLI_ASSOC))
-{
-  if ($code != "") {
-    $new_preis_1 = $zeile9['preis'] - $wert;
-    if ($new_preis_1 < 0) {
-      $new_preis = 0;
-    } else {
-      $new_preis = $new_preis_1;
-    }
-    echo $new_preis;
-  } else {
-    echo $zeile9['preis'];
-  }
-}
-?>">
 <input type="submit" class="menu_button" name="submit" id="submit">
 </form>
 

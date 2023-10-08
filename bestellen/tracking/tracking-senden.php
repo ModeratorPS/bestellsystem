@@ -313,9 +313,9 @@ $nr_result3 = mysqli_query($link, $nr_3);
 $nr3 = mysqli_num_rows($nr_result3);
 if ($nr3 != 0) {
   if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    echo '<a href="login.php" style="background-color: #FF613D; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account Login</a>';
+    echo '<a href="../account/login.php" style="background-color: #FF613D; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account Login</a>';
   } else {
-    echo '<a href="index-account.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
+    echo '<a href="../account/index-account.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
   }
 }
 ?>
@@ -323,7 +323,7 @@ if ($nr3 != 0) {
       <section class="u-clearfix u-palette-3-light-3 u-section-1" id="sec-8f5b">
 
 
-        <form action="/bestellen/tracking-senden.php" method="post" name="form" class="text">
+        <form action="tracking-senden.php" method="post" name="form" class="text">
             <br><label>Deine ID: </label><input type="text" id="input1" name="input1" value="<?php
             $input1 = $_POST['input1'];
             if (!$input1) {
@@ -429,8 +429,7 @@ if ($num_rows > "0") {
         echo '
         <strong style="color: gray;">Bestellzeit:</strong> '. $zeile['Bestellzeit'] .'<br>
         <strong style="color: gray;">Name:</strong> '. $zeile['Name'] .'<br>
-        <strong style="color: gray;">Bestellung:</strong> '. $zeile['Bestellung'] .'<br>
-        <strong style="color: gray;">Zusatz:</strong> '. $zeile['Zusatz'] .'<br>
+        <strong style="color: gray;">Bestellung:</strong> '. $zeile['Bestellung'] .'
         ';
         echo '<br>';
         if ($zeile['Status'] > "0") {

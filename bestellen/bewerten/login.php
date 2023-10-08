@@ -1,6 +1,6 @@
 <?php
 require_once "../config/config.php";
-$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
+$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Account' and `status` = 'on'";
 $nr_result3 = mysqli_query($link, $nr_3);
 $nr3 = mysqli_num_rows($nr_result3);
 if ($nr3 == 0) {
@@ -23,6 +23,25 @@ require_once "../config/config.php";
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
+
+if(isset($_COOKIE["login_cookie"])){
+  $saved_token = $_COOKIE["login_cookie"];
+  $stmt_search = "SELECT * FROM users WHERE rememberToken = '$saved_token'";
+  $stmt_result = mysqli_query($link, $stmt_search);
+
+  if(mysqli_num_rows($stmt_result) == 1){
+    foreach ($stmt_result as $row) {
+      session_start();
+      $_SESSION["loggedin"] = true;
+      $_SESSION["id"] = $row["id"];
+      $_SESSION["username"] = $row["username"];
+      header("Location: ../index.php");
+    }
+  } else {
+    setcookie("login_cookie", "", time() - 1);
+  }
+}
+
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -72,6 +91,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;                            
                             
+                            if(isset($_POST["rememberme"])){
+                              $token = bin2hex(random_bytes(16));
+                              $sql_token_insert = "UPDATE users SET rememberToken = '$token' WHERE username = '$username'";
+                              mysqli_query($link, $sql_token_insert);
+                  
+                              setcookie("login_cookie", $token, time() + (3600*24*360));
+                            }
+
                             // Redirect user to welcome page
                             $nr_3 = "SELECT * FROM `module` WHERE `name` = 'E-Mail verify' and `status` = 'on'";
                             $nr_result3 = mysqli_query($link, $nr_3);
@@ -129,13 +156,54 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     background-color: rgb(155, 153, 153);
     color: white;
 }
+
+/* Stil für die Checkbox-Container */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333; /* Textfarbe */
+}
+
+/* Verstecke die ursprüngliche Checkbox */
+.checkbox-container input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Stil für das benutzerdefinierte Checkbox-Element */
+.custom-checkbox {
+  width: 25px;
+  height: 25px;
+  background-color: #fff; /* Weißer Hintergrund */
+  border: 1px solid #ccc; /* Grauer Rand */
+  border-radius: 5px; /* Abrundung des Kontrollkästchens */
+  margin-right: 10px; /* Abstand zwischen Checkbox und Text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Stil für das benutzerdefinierte Checkbox-Element, wenn es aktiviert ist */
+.checkbox-container input[type="checkbox"]:checked + .custom-checkbox::before {
+  content: '\2713'; /* Grüner Haken (Checkmark) */
+  color: #4CAF50; /* Grüne Farbe für den Haken */
+}
+
+/* Stil für das benutzerdefinierte Checkbox-Element, wenn es nicht aktiviert ist */
+.checkbox-container input[type="checkbox"]:not(:checked) + .custom-checkbox::before {
+  content: '\2718'; /* Rotes Kreuz (X) für nicht aktiviertes Kontrollkästchen */
+  color: red; /* Rote Farbe für das Kreuz */
+}
 </style>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="keywords" content="​Author&amp;apos;s cake and desserts for your holiday, ​Few words about myself, ​Catalog, How We Work, Facts &amp;amp; Questions, ​​Best Choice, ​Make an order">
     <meta name="description" content="">
-    <title>Bestellen</title>
+    <title>Login</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
 <link rel="stylesheet" href="../Bestellen.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
@@ -210,6 +278,11 @@ foreach($lines as $line) {
                 <input type="password" name="password" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" <?php if ($password_err != "") { echo 'style="background-color: #FF8787;"'; } else { echo 'style="background-color: #E2E2E2;"'; } ?>>
                 <label style="color: #FF8787;"><strong><?php echo $password_err; ?></strong></label>
             </div><br>
+            <label class="checkbox-container">
+              <input type="checkbox" name="rememberme">
+              <div class="custom-checkbox"></div>
+              Angemeldet bleiben
+            </label><br>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary menu_button" value="Login">
             </div>

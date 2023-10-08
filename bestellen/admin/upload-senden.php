@@ -32,6 +32,5 @@ if(file_exists($new_path)) {
 }
 
 move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
-echo 'Bild erfolgreich hochgeladen: <a href="'.$new_path.'">'.$new_path.'</a><br><br>';
+echo 'Bild erfolgreich hochgeladen! <a href="artikel-add.php?link='.$new_path.'">Artikel mit diesem Bild erstellen</a><br><br>';
 ?>
-<a href="index.php">ZURÜCK</a>
