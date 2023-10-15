@@ -69,7 +69,7 @@ if ($nr3 != 0) {
   if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     echo '<a href="../account/login.php" style="background-color: #FF613D; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account Login</a>';
   } else {
-    echo '<a href="../config/index.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
+    echo '<a href="../account/index.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
   }
 }
 ?>

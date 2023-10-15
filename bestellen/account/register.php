@@ -22,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $mail_err = "Bitte gebe eine E-Mail Adresse an!";
     } else{
         // Prepare a select statement
-        $sql = "SELECT mail FROM users WHERE username = ?";
+        $sql = "SELECT mail FROM users WHERE mail = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -106,10 +106,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($mail_err) && empty($confirm_password_err)){
-        
+
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, mail, level, proc, bewerten_rang) VALUES (?, ?, ?, '0', '0', '0')";
-         
+        $sql = "INSERT INTO users (username, password, mail, bewerten_rang) VALUES (?, ?, ?, '0')";
+        
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $param_mail);

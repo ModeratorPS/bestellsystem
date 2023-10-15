@@ -55,25 +55,8 @@ while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
     $query2 = "UPDATE `Artikelliste` SET `lager`=\"$new\" WHERE `artikel` = \"$input3\""; 
 	  $result2 = mysqli_query($link, $query2); 
 
-    $query = "INSERT INTO `bestellungen` (`Name`, `E-Mail`, `Bestellung`, `Zusatz`, `ID`, `Status`, `TG`) VALUES ('$input1', '$input2', '$input3', '$input4', '$input5', '0', '$input6');"; 
+    $query = "INSERT INTO `bestellungen` (`Name`, `Bestellung`, `ID`, `Status`, `TG`) VALUES ('$input1', '$input3', '$input5', '0', '$input6');"; 
 	  $result = mysqli_query($link, $query); 
-
-    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-      $sec = $_SESSION['id'];
-      $sqlextra = "SELECT * FROM `users` WHERE `id` = \"$sec\"";
-      $db_ergextra = mysqli_query( $link, $sqlextra );
-      while ($zeile = mysqli_fetch_array( $db_ergextra, MYSQLI_ASSOC)) {
-        $new_1 = $zeile['proc'] + 20;
-        $new_2 = $zeile['level'] + 1;
-        if ($new_1 >= 100) {
-          $sqlextra2 = "UPDATE `users` SET `level`=\"$new_2\", `proc`='0' WHERE `id` = \"$sec\"";
-          $db_ergextra2 = mysqli_query( $link, $sqlextra2 );
-        } else {
-          $sqlextra2 = "UPDATE `users` SET `proc`=\"$new_1\" WHERE `id` = \"$sec\"";
-          $db_ergextra2 = mysqli_query( $link, $sqlextra2 );
-        }
-      }
-    }
 
     if ($input2 != "") {
       $betreff = 'Restaurant Rechnung #'. $input5 .'';

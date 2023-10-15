@@ -1,6 +1,6 @@
 <?php
 require_once "../config/config.php";
-
+ 
 session_start();
 
 $input1 = $_GET['nr'];

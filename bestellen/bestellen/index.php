@@ -16,6 +16,226 @@ session_start();
 
     <script class="u-script" type="text/javascript" src="../mail.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="../bild.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="index.js" defer=""></script>
+
+    <style>
+      .img_pic {
+        width: 200px; /* You can specify the width in pixels or other units */
+        height: auto; /* The 'auto' value maintains the image's aspect ratio */
+      }
+
+      .num {
+        width: 60px;
+        height: 40px;
+        font-size: 24px;
+        text-align: center;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        color: gray;
+      }
+
+      .fixed-bar {
+        background-color: white;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        justify-content: center;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        height: 120px; /* Standardhöhe der fixed bar */
+        display: flex;
+      }
+
+      .expanded-bar {
+        height: 100vh;
+        bottom: 0;
+      }
+    </style>
+    <script>
+      let cart = [];
+      let total = 0;
+      let before = "";
+      let rabatt = 0;
+      function startup(artikel) {
+        const selectElement = document.getElementById("select_"+artikel);
+        try {
+            selectElement.disabled = false;
+        } catch (error) {
+            console.error(error)
+        }
+        const anzElement = document.getElementById("anz_"+artikel);
+        anzElement.disabled = false;
+      }
+      function checkCart(artikel, preis) {
+        let insite = false;
+        for (const item of cart) {
+            if (item.name == artikel) {
+                insite = true;
+                break;
+            }
+        }
+
+        const buttonElement = document.getElementById(artikel);
+        const selectElement = document.getElementById("select_"+artikel);
+        const anzElement = document.getElementById("anz_"+artikel);
+        if (insite) {
+            buttonElement.style.backgroundColor = "#E36262";
+            buttonElement.textContent = "Im Warenkorb";
+            buttonElement.onclick = function () {
+            removeFromCartByName(artikel);
+            };
+            try {
+            selectElement.disabled = true;
+            } catch (error) {
+            console.error(error);
+            }
+            anzElement.disabled = true;
+        } else {
+            buttonElement.style.backgroundColor = "#6DE362";
+            buttonElement.textContent = "In den Warenkorb - " + preis + "€";
+            buttonElement.onclick = function () {
+            addToCart(artikel, preis);
+            };
+            try {
+            selectElement.disabled = false;
+            } catch (error) {
+            console.error(error);
+            }
+            anzElement.disabled = false;
+        }
+
+        if (cart.length == 0) {
+            document.getElementById("btn").textContent = "Einkaufswagen ist leer";
+            document.getElementById("btn").style.backgroundColor = "#D6D6D6";
+            document.getElementById("btn").disabled = true;
+        } else {
+            var ins = 0;
+            for (const item of cart) {
+              ins = ins + parseInt(item.anz)
+            }
+            var rabattInDezimal = rabatt / 100;
+            var rabattBetrag = total * rabattInDezimal;
+
+            // Den Endpreis berechnen
+            var beta_total = total - rabattBetrag;
+            if (beta_total < 0.00) {
+              beta_total = 0.00
+            }
+            beta_total = beta_total.toFixed(2)
+            document.getElementById("btn").textContent = "Jetzt Bestellen ("+ins.toString()+") - "+beta_total+"€";
+            document.getElementById("btn").style.backgroundColor = "#7FB081";
+            document.getElementById("btn").disabled = false;
+        }
+      }
+      function checkout() {
+        const name = document.getElementById("name")
+        let tisch = "";
+        const selectElement = document.getElementById("tisch");
+        try {
+          if (selectElement == null) {
+            tisch = "nl"
+          } else {
+            if (selectElement.value == "") {
+              tisch = "lr"
+            }
+          }
+        } catch (error) {
+          tisch = "nl"
+        }
+        if (name.value == "") {
+            alert("Kein Name angegeben");
+        } else if (tisch == "lr") {
+            alert("Kein Tisch ausgewählt");
+        } else {
+            $.ajax({
+            url: 'check-open.php',
+            success: function(data) {
+                $('.result').html(data);
+                if(data.toString() == "Geschlossen") {
+                  window.location = "bestellt-error.php?code=474";
+                } else {
+                    products = "";
+                    for (const item of cart) {
+                        products = products + item.anz + "x " + item.name + " - " + item.tg + "<br>";
+                        $.ajax({
+                        url: 'edit-lager.php?artikel='+item.name+'&anz='+item.anz
+                        })
+                    }
+                    if (tisch != "nl") {
+                        tisch = "- " + selectElement.value;
+                    } else {
+                        tisch = "- Kein Tisch angegeben"
+                    }
+                    var rabattInDezimal = rabatt / 100;
+                    var rabattBetrag = total * rabattInDezimal;
+
+                    // Den Endpreis berechnen
+                    var total = total - rabattBetrag;
+                    total = total.toFixed(2)
+                    if (total < 0.00) {
+                      total = 0.00
+                    }
+                    const string_cart = JSON.stringify(cart);
+                    $.ajax({
+                        url: 'send-order.php?name='+name.value+'&total='+total+'&tisch='+tisch+'&produkte='+products+'&cart='+string_cart,
+                        success: function(data) {
+                        $('.result').html(data);
+                        window.location = "bestellt-abgeschlossenn.php?id="+data.toString();
+                        }
+                    });
+                }
+            }
+            });
+        }
+      }
+      function addToCart(productName, price) {
+        const selectElement = document.getElementById("select_"+productName);
+        const anzElement = document.getElementById("anz_"+productName);
+        if (anzElement.value <= 0) {
+          alert("Die Anzahl darf nicht 0 oder kleiner sein")
+        } else if (anzElement.value > parseInt(anzElement.max)) {
+          alert("Der Artikel ist nur noch "+anzElement.max+" mal verfügbar")
+        } else {
+          try {
+          cart.push({ name: productName, price: price, tg: selectElement.value, anz: anzElement.value });
+          } catch (error) {
+          console.error(error);
+          cart.push({ name: productName, price: price, tg: "", anz: anzElement.value });
+          }
+          total += anzElement.value * price;
+          checkCart(productName, price)
+        }
+      }
+      function removeFromCartByName(productName) {
+        const index = cart.findIndex(item => item.name === productName);
+        if (index !== -1) {
+          const removedItem = cart.splice(index, 1)[0];
+          total -= removedItem.anz * removedItem.price;
+          checkCart(productName, removedItem.price)
+        }
+      }
+      function rabatt_check() {
+        const rabattfeld = document.getElementById("rabatt");
+        if (rabattfeld.value != "") {
+          $.ajax({
+            url: 'check-code.php?code='+rabattfeld.value,
+            success: function(data) {
+              $('.result').html(data);
+              if (data == "0") {
+                alert("Ungültiger Rabattcode")
+                rabattfeld.value = ""
+                rabatt = 0
+              } else {
+                rabatt = parseInt(data)
+                alert("Du erhältst beim Checkout "+data+"% Rabatt")
+              }
+            }
+          });
+        }
+      }
+    </script>
 
     <meta name="generator" content="Nicepage 4.13.4, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -83,180 +303,237 @@ if ($nr3 != 0) {
             <div class="u-layout-row">
               <div class="u-container-align-left u-container-style u-layout-cell u-size-30 u-layout-cell-1">
                 <div class="u-container-layout u-container-layout-1">
-                  <div class="u-form u-form-1">
-                    <form action="bestellen-senden.php" method="post" name="form" style="padding: 10px;">
 <?php
 require_once "../config/config.php";
+
+if($_SESSION["loggedin"] === true){
+  $style = 'readonly style="background-color: #E2E2E2;"';
+} else {
+  $style = '';
+}
+echo '<input type="text" id="name" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" placeholder="Name" value="'.$_SESSION["username"].'" required="" '.$style.'><br>';
+
 $nr_3 = "SELECT * FROM `module` WHERE `name` = 'Tischnummer' and `status` = 'on'";
 $nr_result3 = mysqli_query($link, $nr_3);
 $nr3 = mysqli_num_rows($nr_result3);
 if ($nr3 != 0) {
-  echo '<div class="u-form-group u-form-select u-form-group-3 u-form-select-wrapper">
-  <label for="email-e90b" class="u-label">Tischnummer</label><br>
-  <select id="input1" name="input1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">';
+  echo '<select id="tisch" name="tisch" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">';
   $query0 = 'SELECT * FROM `tische` WHERE `status` = "on"';
   $result0 = mysqli_query($link, $query0);
   echo '<option value="" disabled selected></option>';
   while($zeile = mysqli_fetch_array( $result0, MYSQLI_ASSOC)) {
     echo '<option value="Tisch '.$zeile['nummer'].'">Tisch '.$zeile['nummer'].'</option>';
   }
-  echo '</select></div>';
-} else {
-  if($_SESSION["loggedin"] === true){
-    $style = 'readonly style="background-color: #E2E2E2;"';
-  } else {
-    $style = '';
-  }
-  echo '<div class="u-form-group u-form-name">
-  <label for="name-e90b" class="u-label">Name</label>
-  <input type="text" placeholder="Geben Sie Ihren Namen ein" id="input1" name="input1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" value="'.$_SESSION["username"].'" required="" '.$style.'></div>';
+  echo '</select><br>';
 }
+
+echo '<input onchange="rabatt_check()" type="text" id="rabatt" name="rabatt" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" placeholder="Rabattcode"><br>';
 ?>
-                      <div class="u-form-email u-form-group">
-                        <label for="email-e90b" class="u-label">E-Mail</label><br>
-                        <text id="emailbtn"><input type="checkbox" onClick="loc();" id="emailbtn"> <strong>Ich möchte eine Rechnung erhalten</strong></text>
-                        <input type="email" placeholder="Geben sie eine gültige E-Mail-Adresse an" id="input2" name="input2" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" style="visibility: hidden; display: none;">
-                      </div>
-                      <div class="u-form-group u-form-select u-form-group-3">
-                        <label for="select-bc3b" class="u-label">Produkt</label>
-                        <div class="u-form-select-wrapper">
-                          <select id="input3" name="input3" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                  <select onchange="val()" id="cat" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
+                    <option selected disabled>Bitte wähle eine Kategorie aus</option>
+                    <option value="1">Kalte Getränke ohne Alkohol</option>
+                    <option value="2">Kalte Getränke mit Alkohol</option>
+                    <option value="3">Warme Getränke ohne Alkohol</option>
+                    <option value="4">Warme Getränke mit Alkohol</option>
+                    <option value="5">Essen</option>
+                  </select>
+                  <div id="1_div" name="1_div" style="visibility: hidden; display: none;">
+                    <h3 class="u-text u-text-default u-text-1">Kalte Getränke ohne Alkohol</h3><br>
 <?php
-require_once "../config/config.php";
-
-$query1 = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Kalte Getränke ohne Alkohol"';
-$result1 = mysqli_query($link, $query1); 
-$num_rows1 = mysqli_num_rows( $result1 ); 
-if ($num_rows1 > "0") {
-  echo '<optgroup label="Kalte Getränke ohne Alkohol">';
-  while($zeile = mysqli_fetch_array( $result1, MYSQLI_ASSOC))
-  {
-    if ($zeile['lager'] == 0) {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'" disabled>'.$zeile['artikel'].' - Ausverkauft</option>';
-    } else {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'">'.$zeile['artikel'].' - '.$zeile['preis'].' Euro</option>';
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Kalte Getränke ohne Alkohol"';
+$result = mysqli_query($link, $query);
+$num_rows = mysqli_num_rows($result);
+if ($num_rows > 0) {
+  foreach ($result as $zeile) {
+    echo '<fieldset>';
+    if ($zeile['bild'] != "") {
+      echo '<img class="img_pic" src="' . $zeile['bild'] . '" align="right" style="border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;" alt="" data-image-width="734" data-image-height="864" data-lang-en="">';
     }
-  }
-  echo '</optgroup>';
-}
-
-$query2 = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Kalte Getränke mit Alkohol"';
-$result2 = mysqli_query($link, $query2); 
-$num_rows2 = mysqli_num_rows( $result2 ); 
-if ($num_rows2 > "0") {
-  echo '<optgroup label="Kalte Getränke mit Alkohol">';
-  while($zeile = mysqli_fetch_array( $result2, MYSQLI_ASSOC))
-  {
-    if ($zeile['lager'] == 0) {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'" disabled>'.$zeile['artikel'].' - Ausverkauft</option>';
-    } else {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'">'.$zeile['artikel'].' - '.$zeile['preis'].' Euro</option>';
+    $lager = 'max="'.$zeile['lager'].'"';
+    if ($zeile['lager'] <= 0) {
+      $lager = "";
     }
-  }
-  echo '</optgroup>';
-}
-
-$query3 = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Warme Getränke ohne Alkohol"';
-$result3 = mysqli_query($link, $query3); 
-$num_rows3 = mysqli_num_rows( $result3 ); 
-if ($num_rows3 > "0") {
-  echo '<optgroup label="Warme Getränke ohne Alkohol">';
-  while($zeile = mysqli_fetch_array( $result3, MYSQLI_ASSOC))
-  {
+    echo '<h6 class="u-text u-text-default u-text-1"><input type="number" id="anz_'.$zeile['artikel'].'" value="1" disabled class="num" min="1" '.$lager.'> ' . $zeile['artikel'] . '</h6>';
     if ($zeile['lager'] == 0) {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'" disabled>'.$zeile['artikel'].' - Ausverkauft</option>';
+      echo '<button style="background-color: #D6D6D6; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" disabled>Ausverkauft</button>';
     } else {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'">'.$zeile['artikel'].' - '.$zeile['preis'].' Euro</option>';
+      $articleID = $zeile['artikel'];
+      if ($zeile['TG'] == "Ja") {
+        echo '<select id="select_'.$zeile['artikel'].'" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" disabled>';
+        echo '<option value="Klein">Klein</option>';
+        echo '<option value="Normal" selected>Normal</option>';
+        echo '<option value="Groß">Groß</option>';
+        echo '</select>';
+      }
+      echo '<button id="' . $articleID . '" style="background-color: #6DE362; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" onclick="addToCart(\'' . $zeile['artikel'] . '\', ' . $zeile['preis'] . ')">';
+      echo 'In den Warenkorb - ' . round($zeile['preis'], 2) . '€';
+      echo '</button>';
+      echo '<script>startup("'.$zeile['artikel'].'");</script>';
     }
-  }
-  echo '</optgroup>';
-} 
-
-$query4 = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Warme Getränke mit Alkohol"';
-$result4 = mysqli_query($link, $query4); 
-$num_rows4 = mysqli_num_rows( $result4 ); 
-if ($num_rows4 > "0") {
-  echo '<optgroup label="Warme Getränke mit Alkohol">';
-  while($zeile = mysqli_fetch_array( $result4, MYSQLI_ASSOC))
-  {
-    if ($zeile['lager'] == 0) {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'" disabled>'.$zeile['artikel'].' - Ausverkauft</option>';
-    } else {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'">'.$zeile['artikel'].' - '.$zeile['preis'].' Euro</option>';
-    }
-  }
-  echo '</optgroup>';
-} 
-
-$query5 = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Essen"';
-$result5 = mysqli_query($link, $query5); 
-$num_rows5 = mysqli_num_rows( $result5 ); 
-if ($num_rows5 > "0") {
-  echo '<optgroup label="Essen">';
-  while($zeile = mysqli_fetch_array( $result5, MYSQLI_ASSOC))
-  {
-    if ($zeile['lager'] == 0) {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'" disabled>'.$zeile['artikel'].' - Ausverkauft</option>';
-    } else {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'">'.$zeile['artikel'].' - '.$zeile['preis'].' Euro</option>';
-    }
-  }
-  echo '</optgroup>';
-} 
-
-$query6 = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = ""';
-$result6 = mysqli_query($link, $query6); 
-$num_rows6 = mysqli_num_rows( $result6 ); 
-if ($num_rows6 > "0") {
-  echo '<optgroup label="Artikel ohne Gruppe">';
-  while($zeile = mysqli_fetch_array( $result6, MYSQLI_ASSOC))
-  {
-    if ($zeile['lager'] == 0) {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'" disabled>'.$zeile['artikel'].' - Ausverkauft</option>';
-    } else {
-      echo '<option data-bild="'.$zeile['bild'].'" data-bild-w="'.$zeile['width'].'" data-bild-h="'.$zeile['height'].'" value="'.$zeile['artikel'].'">'.$zeile['artikel'].' - '.$zeile['preis'].' Euro</option>';
-    }
-  }
-  echo '</optgroup>';
-} 
-?> 
-                          </select>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" version="1" class="u-caret"><path fill="currentColor" d="M4 8L0 4h8z"></path></svg>
-                        </div>
-                        <div class="u-form-email u-form-group">
-                          <label for="email-e90b" class="u-label">Zusatz</label>
-                          <input type="text" placeholder="Zusatz" id="input4" name="input4" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
-                        </div>
-                        <div class="u-form-group u-form-name">
-                        <?php if ($_GET['code'] != "") { echo '<label for="name-e90b" class="u-label" style="color: #FF8787">Rabattcode</label>'; } else { echo '<label for="name-e90b" class="u-label">Rabattcode</label>'; } ?>
-                        <input <?php if ($_GET['code'] != "") { echo "style='background-color: #FF8787'"; } ?> type="text" id="input5" name="input5" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" placeholder="<?php echo $_GET['code']; if (!$_GET['code']) { echo 'Geben Sie einen Rabattcode ein'; } ?>">
-                        <?php if ($_GET['code'] != "") { echo '<label for="name-e90b" class="u-label" style="color: #FF8787">Ungültiger Rabattcode</label>'; } ?>
-                      </div>
-                      </div>
-                      <?php
-require_once "../config/config.php";
-$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Account' and `status` = 'on'";
-$nr_result3 = mysqli_query($link, $nr_3);
-$nr3 = mysqli_num_rows($nr_result3);
-if ($nr3 != 0) {
-  if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    echo '<input type="submit" class="u-btn u-btn-submit u-button-style" value="Bestellen (Ohne Account)" style="background-color: #FF3333;" name="submit" id="submit">
-    <a href="login.php" style="background-color: #FF5533;" class="u-btn u-button-style">Login</a>';
-  } else {
-    echo '<input type="submit" class="u-btn u-btn-submit u-button-style" value="Bestellen (Mit Account)" style="background-color: #7DE16D;" name="submit" id="submit">';
+    echo '</fieldset>';
   }
 } else {
-  echo '<input type="submit" class="u-btn u-btn-submit u-button-style" value="Bestellen" name="submit" id="submit">';
+  echo '<h5 class="u-text u-text-default u-text-1">Keine Artikel unter dieser Kategorie</h5>';
 }
 ?>
-                    </form>
-<?php
-require_once "../config/config.php";
-$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
-$nr_result3 = mysqli_query($link, $nr_3);
-$nr3 = mysqli_num_rows($nr_result3);
-if ($nr3 != 0) {
-  echo '<a href="'.$LINK_BEWERTEN.'" class="u-btn u-button-style">Bewerten</a>';
+                  </div>
+                  <div id="2_div" name="2_div" style="visibility: hidden; display: none;">
+                    <h3 class="u-text u-text-default u-text-1">Kalte Getränke mit Alkohol</h3><br>
+                    <?php
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Kalte Getränke mit Alkohol"';
+$result = mysqli_query($link, $query);
+$num_rows = mysqli_num_rows($result);
+if ($num_rows > 0) {
+  foreach ($result as $zeile) {
+    echo '<fieldset>';
+    if ($zeile['bild'] != "") {
+      echo '<img class="img_pic" src="' . $zeile['bild'] . '" align="right" style="border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;" alt="" data-image-width="734" data-image-height="864" data-lang-en="">';
+    }
+    $lager = 'max="'.$zeile['lager'].'"';
+    if ($zeile['lager'] <= 0) {
+      $lager = "";
+    }
+    echo '<h6 class="u-text u-text-default u-text-1"><input type="number" id="anz_'.$zeile['artikel'].'" value="1" disabled class="num" min="1" '.$lager.'> ' . $zeile['artikel'] . '</h6>';
+    if ($zeile['lager'] == 0) {
+      echo '<button style="background-color: #D6D6D6; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" disabled>Ausverkauft</button>';
+    } else {
+      $articleID = $zeile['artikel'];
+      if ($zeile['TG'] == "Ja") {
+        echo '<select id="select_'.$zeile['artikel'].'" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" disabled>';
+        echo '<option value="Klein">Klein</option>';
+        echo '<option value="Normal" selected>Normal</option>';
+        echo '<option value="Groß">Groß</option>';
+        echo '</select>';
+      }
+      echo '<button id="' . $articleID . '" style="background-color: #6DE362; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" onclick="addToCart(\'' . $zeile['artikel'] . '\', ' . $zeile['preis'] . ')">';
+      echo 'In den Warenkorb - ' . round($zeile['preis'], 2) . '€';
+      echo '</button>';
+      echo '<script>startup("'.$zeile['artikel'].'");</script>';
+    }
+    echo '</fieldset>';
+  }
+} else {
+  echo '<h5 class="u-text u-text-default u-text-1">Keine Artikel unter dieser Kategorie</h5>';
+}
+?>
+                  </div>
+                  <div id="3_div" name="3_div" style="visibility: hidden; display: none;">
+                    <h3 class="u-text u-text-default u-text-1">Warme Getränke ohne Alkohol</h3><br>
+                    <?php
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Warme Getränke ohne Alkohol"';
+$result = mysqli_query($link, $query);
+$num_rows = mysqli_num_rows($result);
+if ($num_rows > 0) {
+  foreach ($result as $zeile) {
+    echo '<fieldset>';
+    if ($zeile['bild'] != "") {
+      echo '<img class="img_pic" src="' . $zeile['bild'] . '" align="right" style="border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;" alt="" data-image-width="734" data-image-height="864" data-lang-en="">';
+    }
+    $lager = 'max="'.$zeile['lager'].'"';
+    if ($zeile['lager'] <= 0) {
+      $lager = "";
+    }
+    echo '<h6 class="u-text u-text-default u-text-1"><input type="number" id="anz_'.$zeile['artikel'].'" value="1" disabled class="num" min="1" '.$lager.'> ' . $zeile['artikel'] . '</h6>';
+    if ($zeile['lager'] == 0) {
+      echo '<button style="background-color: #D6D6D6; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" disabled>Ausverkauft</button>';
+    } else {
+      $articleID = $zeile['artikel'];
+      if ($zeile['TG'] == "Ja") {
+        echo '<select id="select_'.$zeile['artikel'].'" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" disabled>';
+        echo '<option value="Klein">Klein</option>';
+        echo '<option value="Normal" selected>Normal</option>';
+        echo '<option value="Groß">Groß</option>';
+        echo '</select>';
+      }
+      echo '<button id="' . $articleID . '" style="background-color: #6DE362; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" onclick="addToCart(\'' . $zeile['artikel'] . '\', ' . $zeile['preis'] . ')">';
+      echo 'In den Warenkorb - ' . round($zeile['preis'], 2) . '€';
+      echo '</button>';
+      echo '<script>startup("'.$zeile['artikel'].'");</script>';
+    }
+    echo '</fieldset>';
+  }
+} else {
+  echo '<h5 class="u-text u-text-default u-text-1">Keine Artikel unter dieser Kategorie</h5>';
+}
+?>
+                  </div>
+                  <div id="4_div" name="4_div" style="visibility: hidden; display: none;">
+                    <h3 class="u-text u-text-default u-text-1">Warme Getränke mit Alkohol</h3><br>
+                    <?php
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Warme Getränke mit Alkohol"';
+$result = mysqli_query($link, $query);
+$num_rows = mysqli_num_rows($result);
+if ($num_rows > 0) {
+  foreach ($result as $zeile) {
+    echo '<fieldset>';
+    if ($zeile['bild'] != "") {
+      echo '<img class="img_pic" src="' . $zeile['bild'] . '" align="right" style="border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;" alt="" data-image-width="734" data-image-height="864" data-lang-en="">';
+    }
+    $lager = 'max="'.$zeile['lager'].'"';
+    if ($zeile['lager'] <= 0) {
+      $lager = "";
+    }
+    echo '<h6 class="u-text u-text-default u-text-1"><input type="number" id="anz_'.$zeile['artikel'].'" value="1" disabled class="num" min="1" '.$lager.'> ' . $zeile['artikel'] . '</h6>';
+    if ($zeile['lager'] == 0) {
+      echo '<button style="background-color: #D6D6D6; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" disabled>Ausverkauft</button>';
+    } else {
+      $articleID = $zeile['artikel'];
+      if ($zeile['TG'] == "Ja") {
+        echo '<select id="select_'.$zeile['artikel'].'" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" disabled>';
+        echo '<option value="Klein">Klein</option>';
+        echo '<option value="Normal" selected>Normal</option>';
+        echo '<option value="Groß">Groß</option>';
+        echo '</select>';
+      }
+      echo '<button id="' . $articleID . '" style="background-color: #6DE362; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" onclick="addToCart(\'' . $zeile['artikel'] . '\', ' . $zeile['preis'] . ')">';
+      echo 'In den Warenkorb - ' . round($zeile['preis'], 2) . '€';
+      echo '</button>';
+      echo '<script>startup("'.$zeile['artikel'].'");</script>';
+    }
+    echo '</fieldset>';
+  }
+} else {
+  echo '<h5 class="u-text u-text-default u-text-1">Keine Artikel unter dieser Kategorie</h5>';
+}
+?>
+                  </div>
+                  <div id="5_div" name="5_div" style="visibility: hidden; display: none;">
+                    <h3 class="u-text u-text-default u-text-1">Essen</h3><br>
+                    <?php
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Essen"';
+$result = mysqli_query($link, $query);
+$num_rows = mysqli_num_rows($result);
+if ($num_rows > 0) {
+  foreach ($result as $zeile) {
+    echo '<fieldset>';
+    if ($zeile['bild'] != "") {
+      echo '<img class="img_pic" src="' . $zeile['bild'] . '" align="right" style="border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;" alt="" data-image-width="734" data-image-height="864" data-lang-en="">';
+    }
+    $lager = 'max="'.$zeile['lager'].'"';
+    if ($zeile['lager'] <= 0) {
+      $lager = "";
+    }
+    echo '<h6 class="u-text u-text-default u-text-1"><input type="number" id="anz_'.$zeile['artikel'].'" value="1" disabled class="num" min="1" '.$lager.'> ' . $zeile['artikel'] . '</h6>';
+    if ($zeile['lager'] == 0) {
+      echo '<button style="background-color: #D6D6D6; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" disabled>Ausverkauft</button>';
+    } else {
+      $articleID = $zeile['artikel'];
+      if ($zeile['TG'] == "Ja") {
+        echo '<select id="select_'.$zeile['artikel'].'" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" disabled>';
+        echo '<option value="Klein">Klein</option>';
+        echo '<option value="Normal" selected>Normal</option>';
+        echo '<option value="Groß">Groß</option>';
+        echo '</select>';
+      }
+      echo '<button id="' . $articleID . '" style="background-color: #6DE362; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" onclick="addToCart(\'' . $zeile['artikel'] . '\', ' . $zeile['preis'] . ')">';
+      echo 'In den Warenkorb - ' . round($zeile['preis'], 2) . '€';
+      echo '</button>';
+      echo '<script>startup("'.$zeile['artikel'].'");</script>';
+    }
+    echo '</fieldset>';
+  }
+} else {
+  echo '<h5 class="u-text u-text-default u-text-1">Keine Artikel unter dieser Kategorie</h5>';
 }
 ?>
                   </div>
@@ -272,4 +549,7 @@ if ($nr3 != 0) {
         </div>
       </div>
     </section>
+    <div class="fixed-bar" id="fixedBar">
+      <button id="btn" style="background-color: #D6D6D6; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" disabled onclick="checkout()">Einkaufswagen ist leer</button><br><br><br><br>
+    </div>
 </body></html>

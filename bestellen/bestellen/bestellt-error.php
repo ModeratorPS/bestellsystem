@@ -67,9 +67,9 @@ $nr_result3 = mysqli_query($link, $nr_3);
 $nr3 = mysqli_num_rows($nr_result3);
 if ($nr3 != 0) {
   if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    echo '<a href="login.php" style="background-color: #FF613D; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account Login</a>';
+    echo '<a href="../account/login.php" style="background-color: #FF613D; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account Login</a>';
   } else {
-    echo '<a href="index-account.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
+    echo '<a href="../config/index.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
   }
 }
 ?>
@@ -99,14 +99,6 @@ if ($nr3 != 0) {
       $code = $_GET['code'];
       if ($code == 474) {
         echo '<h3 align="center" class="u-text-palette-2-base"><strong>Ihre Bestellung wurde nicht gesendet, da wir geschlossen haben</strong></h3>';
-      } else if ($code == 404) {
-        echo '<h3 align="center" class="u-text-palette-2-base"><strong>Dieser Artikel ist leider Ausverkauft</strong></h3>';
-      } else if ($code == 808) {
-        echo '<h3 align="center" class="u-text-palette-2-base"><strong>Du musst eingelogt sein, um diesen Artikel kaufen zu können!</strong></h3>';
-      } else if ($code == 939) {
-        echo '<h3 align="center" class="u-text-palette-2-base"><strong>Du hast das Mindestalter noch nicht erreicht!</strong></h3>';
-      } else if ($code == 101) {
-        echo '<h3 align="center" class="u-text-palette-2-base"><strong>Falsches Passwort!</strong></h3>';
       } else {
         echo '<h3 align="center" class="u-text-palette-2-base"><strong>Unbekannter Fehler!</strong></h3>';
       }

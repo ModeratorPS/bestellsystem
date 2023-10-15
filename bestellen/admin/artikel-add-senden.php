@@ -12,10 +12,8 @@ $input8 = $_POST['input8'];
 $input9 = $_POST['input9'];
 $input10 = $_POST['input10'];
 $input11 = $_POST['input11'];
-$input12 = $_POST['input12'];
-$input13 = $_POST['input13'];
 
-$query = "INSERT INTO `Artikelliste` (`artikel`, `bild`, `width`, `height`, `beschreibung`, `Gruppe`, `Kidsmode`, `TG`, `preis`, `lager`, `time`, `bedingung`, `extra_info_bedingung`) VALUES ('$input1', '$input2', '$input3', '$input4', '$input5', '$input6', '$input7', '$input8', '$input10', '$input9', '$input11', '$input12', '$input13');";
+$query = "INSERT INTO `Artikelliste` (`artikel`, `bild`, `width`, `height`, `beschreibung`, `Gruppe`, `Kidsmode`, `TG`, `preis`, `lager`, `time`) VALUES ('$input1', '$input2', '$input3', '$input4', '$input5', '$input6', '$input7', '$input8', '$input10', '$input9', '$input11');";
 $result = mysqli_query($link, $query);
 if( $result )
  {

@@ -148,56 +148,6 @@ mysqli_free_result( $db_erg1 );
     return;
   }
 ?>
-<fieldset>
-  <legend>Bonuspunkte</legend><br><br>
-  <h3>Deine Bonuspunkte: <?php
-  $sec = $_SESSION['id'];
-  $sql1 = "SELECT * FROM `users` WHERE `id` = \"$sec\"";
-  $db_erg1 = mysqli_query( $link, $sql1 );
-  while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC)) {
-    echo '<strong>'.$zeile['level'].'</strong></h3>';
-  }
-  ?></h3>
-  <h3>Fortschritt zum nächsten Bonuspunkt: <?php
-  $sec = $_SESSION['id'];
-  $sql1 = "SELECT * FROM `users` WHERE `id` = \"$sec\"";
-  $db_erg1 = mysqli_query( $link, $sql1 );
-  while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC)) {
-    echo '<strong>'.$zeile['proc'].' %</strong></h3>';
-  }
-  ?></h3>
-    <div class="w3-light-grey">
-<div id="myBar" class="w3-container" style="width:<?php
-  $sec = $_SESSION['id'];
-  $sql1 = "SELECT * FROM `users` WHERE `id` = \"$sec\"";
-  $db_erg1 = mysqli_query( $link, $sql1 );
-  while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC)) {
-    echo $zeile['proc'];
-  }
-  ?>%; background-color: <?php
-  $sec = $_SESSION['id'];
-  $sql1 = "SELECT * FROM `users` WHERE `id` = \"$sec\"";
-  $db_erg1 = mysqli_query( $link, $sql1 );
-  while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC)) {
-    if ($zeile['proc'] <= 25) {
-      echo "#FF3D3D";
-    } else if ($zeile['proc'] <= 50) {
-      echo "#FFBB3D";
-    } else if ($zeile['proc'] <= 75) {
-      echo "#ADFF3D";
-    } else {
-      echo "#4CFF3D";
-    }
-  }
-  ?>;"><?php
-  $sec = $_SESSION['id'];
-  $sql1 = "SELECT * FROM `users` WHERE `id` = \"$sec\"";
-  $db_erg1 = mysqli_query( $link, $sql1 );
-  while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC)) {
-    echo '<strong>'.$zeile['proc'].' %</strong>';
-  }
-  ?></div></div><br><br>
-  </fieldset><br>
 <fieldset <?php
 require_once "../config/config.php";
 $nr_3 = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
@@ -207,7 +157,7 @@ if ($nr3 == 0) {
   echo "display: none; visibility: hidden";
 }
 ?>>
-  <legend>Dein Bewertungsrang</legend>
+  <legend>Dein Rang</legend>
   <?php
 require_once "../config/config.php";
 $besonders == "False";
@@ -385,37 +335,11 @@ if ($nr2 == 0) {
       } else if ($zeile['aufgabe'] == 'Bestellungen') {
         echo '<h3>Bestelle '.$zeile['count'].' mal!</h3>';
         $user = $_SESSION["username"];
-        $aufgabe_sql = "SELECT * FROM `bestellungen` WHERE `Name` = \"$user\"";
+        $aufgabe_sql = "SELECT * FROM `bestellungen` WHERE `Name` LIKE '%$user%'";
         $aufgabe_result = mysqli_query( $link, $aufgabe_sql );
         $num_rows = mysqli_num_rows($aufgabe_result);
         echo '<h4 style="color: gray;">'.$num_rows.' / '.$zeile['count'].'</h4>';
         if ($num_rows >= $zeile['count']) {
-          $act = 'aufgabe_'.$zeile['nr'];
-          $aufgabe_check_sql = "SELECT * FROM `users` WHERE `username` = \"$user\" AND `$act` = 'True'";
-          $aufgabe_check_result = mysqli_query( $link, $aufgabe_check_sql );
-          $num_rows_check = mysqli_num_rows($aufgabe_check_result);
-          if ($num_rows_check == 1) {
-            echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Abgeholt</a>';
-          } else {
-            if ($blured == 'Nein') {
-              echo '<a href="aufgabe-erledigt.php?nr='.$zeile['nr'].'" class="u-btn u-button-style">Abholen</a>';
-            } else {
-              echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Aufgabe noch nicht erledigt</a>';
-            }
-          }
-        } else {
-          echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Aufgabe noch nicht erledigt</a>';
-        }
-      } else if ($zeile['aufgabe'] == 'Bonuspunkte') {
-        echo '<h3>Besitze '.$zeile['count'].' Bonuspunkte!</h3>';
-        $user = $_SESSION["username"];
-        $aufgabe_sql = "SELECT * FROM `users` WHERE `username` = \"$user\"";
-        $aufgabe_result = mysqli_query( $link, $aufgabe_sql );
-        while ($zeile2 = mysqli_fetch_array( $aufgabe_result, MYSQLI_ASSOC)) {
-          $level = $zeile2['level'];
-        }
-        echo '<h4 style="color: gray;">'.$level.' / '.$zeile['count'].'</h4>';
-        if ($level >= $zeile['count']) {
           $act = 'aufgabe_'.$zeile['nr'];
           $aufgabe_check_sql = "SELECT * FROM `users` WHERE `username` = \"$user\" AND `$act` = 'True'";
           $aufgabe_check_result = mysqli_query( $link, $aufgabe_check_sql );
@@ -489,7 +413,7 @@ if ($nr2 == 0) {
       echo '<h4>Klicke <a href="" disabled style="color: lightblue;"><strong>hier</strong></a> um den Siri Kurzbefehl hinzufügen zu können.</h4>';
     } else {
       echo '<div>';
-      echo '<h4>Klicke <a href="https://www.icloud.com/shortcuts/bbe14f1cd8664d4eb1d502937de944a9" style="color: lightblue;"><strong>hier</strong></a> um den Siri Kurzbefehl hinzufügen zu können.</h4>';
+      echo '<h4>Klicke <a href="https://www.icloud.com/shortcuts/9c25182efc584193a485ebdbca8a57c2" style="color: lightblue;"><strong>hier</strong></a> um den Siri Kurzbefehl hinzufügen zu können.</h4>';
     }
     echo '<p><strong>Tutorial:</strong><br>
     <strong>Step 1: </strong>Klicke auf den Link und füge den Kurzbefehl hinzu.<br>

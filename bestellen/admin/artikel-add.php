@@ -39,7 +39,6 @@ if ($_SESSION["loggedin_admin"] !== true) {
 <link rel="stylesheet" href="../Bestellen.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="../nicepage.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="admin-artikel-add.js" defer=""></script>
     <meta name="generator" content="Nicepage 4.13.4, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
@@ -97,7 +96,7 @@ foreach($lines as $line) {
 <form action="artikel-add-senden.php" method="post" name="form">
 Artikelname: <input type="text" placeholder="Wasser" id="input1" name="input1" required=""><br>
 Preis: <input type="text" placeholder="1.00" id="input10" name="input10" required=""><br>
-Bildlink: <input type="text" placeholder="http://bild" id="input2" name="input2"><br>
+Bildlink: <input type="text" placeholder="http://bild" id="input2" name="input2" value="<?php echo $_GET["link"]; ?>"><br>
 Breite (200-300) (Kein Komma nur Punkt): <input type="text" placeholder="218" id="input3" name="input3"><br>
 Höhe (200-300) (Kein Komma nur Punkt): <input type="text" placeholder="288" id="input4" name="input4"><br>
 Beschreibung: <input type="text" placeholder="Enthält Sprudel" id="input5" name="input5"><br>
@@ -118,14 +117,6 @@ Tassengrößen auswahlmöglichkeit: <select id="input8" name="input8">
 </select><br>
 Anzahl (-1 für Unendlich): <input type="number" placeholder="100" id="input9" name="input9" required=""><br>
 time (in Minuten): <input type="number" placeholder="2" id="input11" name="input11" required=""><br>
-Bedingung: <select id="input12" name="input12">
-    <option selected>Keine</option>
-    <option>Leicht</option>
-    <option>Mittel</option>
-    <option>Stark</option>
-    <option>Ultra</option>
-</select><br>
-<input type="text" id="input13" name="input13" style="background-color: #DADADA" readonly>
 <input type="submit" class="menu_button" name="submit" id="submit">
 </form>
 

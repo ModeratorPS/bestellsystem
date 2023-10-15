@@ -95,8 +95,7 @@ foreach($lines as $line) {
 
 <form action="rabattcode-create-senden.php" method="post" name="form">
 Code: <input type="text" placeholder="sparen123" id="input1" name="input1" required=""><br>
-Rabatt: <input type="text" placeholder="1.00" id="input2" name="input2" required=""><br>
-Verwendungen: <input type="number" placeholder="100" id="input3" name="input3"><br>
+Rabatt: <input type="number" placeholder="10%" id="input2" name="input2" required="" min="1" max="100"><br>
 <input type="submit" class="menu_button" name="submit" id="submit">
 </form>
 

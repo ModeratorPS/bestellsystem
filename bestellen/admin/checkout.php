@@ -101,8 +101,8 @@ while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
     echo '<td><form action="checkout-senden.php?name='. $zeile['name'] .'" method="post" name="form">';
     echo '<input type="submit" name="submit" id="submit" class="menu_button" value="Bezahlt">';
     echo '</form></td>';
-    echo '<td><form action="ckeckout-level.php?name='. $zeile['name'] .'" method="post" name="form">';
-    echo '<input type="submit" name="submit" id="submit" class="menu_button" value="Bonuspunkten Checkout">';
+    echo '<td><form action="checkout-family.php?name='. $zeile['name'] .'" method="post" name="form">';
+    echo '<input type="submit" name="submit" id="submit" class="menu_button" value="Family Checkout">';
     echo '</form></td>';
     echo "</tr>";
 }

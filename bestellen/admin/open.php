@@ -24,7 +24,6 @@ if( $result2 )
  {
  	echo '2: Query Failed';
  }
-
 $sql1 = "SELECT * FROM `news-mails`";
 $db_erg1 = mysqli_query( $link, $sql1 );
  

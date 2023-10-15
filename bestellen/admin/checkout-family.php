@@ -23,7 +23,7 @@
     <meta charset="utf-8">
     <meta name="keywords" content="​Author&amp;apos;s cake and desserts for your holiday, ​Few words about myself, ​Catalog, How We Work, Facts &amp;amp; Questions, ​​Best Choice, ​Make an order">
     <meta name="description" content="">
-    <title>Admin Bonuspunkte Checkout</title>
+    <title>Admin Checkout</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
 <link rel="stylesheet" href="../Bestellen.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
@@ -82,29 +82,33 @@ foreach($lines as $line) {
         <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
           <div class="u-layout">
 
-<form action="checkout-level-senden.php" method="post" name="form">
-<input type="text" id="input1" name="input1" readonly value="<?php $input1_un = $_GET['name']; $input1 = str_replace("%20", " ", $input1_un); echo $input1; ?>"><br>
-<input type="number" placeholder="Bonuspunkte" name="input2" id="input2"><br>
-<select name="input3" id="input3">
 <?php
 require_once "../config/config.php";
 
-$sql1 = "SELECT * FROM `users`";
-$db_erg1 = mysqli_query( $link, $sql1 );
-if ( ! $db_erg1 )
-{
-  die('Ungültige Abfrage: ' . mysqli_error());
+$input1_un = str_replace("%20", " ", $_GET['name']);
+$input1 = explode(" - ", $input1_un);
+$lastElement = end($input1);
+
+$query = "SELECT * FROM `checkout`"; 
+$result = mysqli_query($link, $query);
+
+$txt = "<strong>Rechnung ".$lastElement."</strong>";
+$total = 0;
+
+foreach ($result as $zeile) {
+    $input2 = explode(" - ", $zeile['name']);
+    $lastElement2 = end($input2);
+    if ($lastElement == $lastElement2) {
+        $txt = $txt."<br>".$zeile['name']." - ".str_replace('"', "", $zeile['Euro'])."€";
+        $total = $total + intval(str_replace('"', "", $zeile['Euro']));
+    }
 }
-while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
-{
-    echo '<option value="'.$zeile['username'].'">'.$zeile['username'].'</option>';
-}
-mysqli_free_result( $db_erg1 );
+
+$txt = $txt."<br><br>Total: ".strval($total)."€";
+echo $txt;
+echo "<br><br><a href='checkout-family-senden.php?name=". $input1_un ."' class='menu_button'>Bezahlen</a>"
 ?>
-</select><br>
-<input type="submit" name="submit" class="menu_button" id="submit" value="Bezahlen">
-</form>
-<br><a href="index.php">Zurück</a>
+<br><br><a href="checkout.php">Zurück</a>
 
 </div>
           </div>
