@@ -39,5 +39,4 @@ Logge dich dort mit deinem Passwort ein!<br>
 ## 3. Show Site Setup
 Tutorial kommt bald!
 #### Viel Spaß beim nutzen vom System!
-#### Fragen kannst du hier stellen: 
-<iframe src="https://discord.com/widget?id=1007913745642692608&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+#### Fragen kannst du hier stellen: https://discord.gg/c848xy7JfE
