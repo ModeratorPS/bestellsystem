@@ -5,7 +5,7 @@ session_start();
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="keywords" content="​Author&amp;apos;s cake and desserts for your holiday, ​Few words about myself, ​Catalog, How We Work, Facts &amp;amp; Questions, ​​Best Choice, ​Make an order">
     <meta name="description" content="">
     <title>Bestellen</title>
@@ -124,7 +124,12 @@ session_start();
               beta_total = 0.00
             }
             beta_total = beta_total.toFixed(2)
-            document.getElementById("btn").textContent = "Jetzt Bestellen ("+ins.toString()+") - "+beta_total+"€";
+            total_rounded = total.toFixed(2)
+            if (rabatt == 0) {
+              document.getElementById("btn").textContent = "Jetzt Bestellen ("+ins.toString()+") - "+beta_total+"€";
+            } else {
+              document.getElementById("btn").innerHTML = "Jetzt Bestellen ("+ins.toString()+") - <s style='color: #FF7070'>"+total_rounded+"€</s> "+beta_total+"€";
+            }
             document.getElementById("btn").style.backgroundColor = "#7FB081";
             document.getElementById("btn").disabled = false;
         }
@@ -340,7 +345,7 @@ echo '<input onchange="rabatt_check()" type="text" id="rabatt" name="rabatt" cla
                   <div id="1_div" name="1_div" style="visibility: hidden; display: none;">
                     <h3 class="u-text u-text-default u-text-1">Kalte Getränke ohne Alkohol</h3><br>
 <?php
-$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Kalte Getränke ohne Alkohol"';
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "1"';
 $result = mysqli_query($link, $query);
 $num_rows = mysqli_num_rows($result);
 if ($num_rows > 0) {
@@ -380,7 +385,7 @@ if ($num_rows > 0) {
                   <div id="2_div" name="2_div" style="visibility: hidden; display: none;">
                     <h3 class="u-text u-text-default u-text-1">Kalte Getränke mit Alkohol</h3><br>
                     <?php
-$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Kalte Getränke mit Alkohol"';
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "2"';
 $result = mysqli_query($link, $query);
 $num_rows = mysqli_num_rows($result);
 if ($num_rows > 0) {
@@ -420,7 +425,7 @@ if ($num_rows > 0) {
                   <div id="3_div" name="3_div" style="visibility: hidden; display: none;">
                     <h3 class="u-text u-text-default u-text-1">Warme Getränke ohne Alkohol</h3><br>
                     <?php
-$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Warme Getränke ohne Alkohol"';
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "3"';
 $result = mysqli_query($link, $query);
 $num_rows = mysqli_num_rows($result);
 if ($num_rows > 0) {
@@ -460,7 +465,7 @@ if ($num_rows > 0) {
                   <div id="4_div" name="4_div" style="visibility: hidden; display: none;">
                     <h3 class="u-text u-text-default u-text-1">Warme Getränke mit Alkohol</h3><br>
                     <?php
-$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Warme Getränke mit Alkohol"';
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "4"';
 $result = mysqli_query($link, $query);
 $num_rows = mysqli_num_rows($result);
 if ($num_rows > 0) {
@@ -500,7 +505,7 @@ if ($num_rows > 0) {
                   <div id="5_div" name="5_div" style="visibility: hidden; display: none;">
                     <h3 class="u-text u-text-default u-text-1">Essen</h3><br>
                     <?php
-$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "Essen"';
+$query = 'SELECT * FROM `Artikelliste` WHERE `Gruppe` = "5"';
 $result = mysqli_query($link, $query);
 $num_rows = mysqli_num_rows($result);
 if ($num_rows > 0) {
