@@ -101,11 +101,11 @@ Breite (200-300) (Kein Komma nur Punkt): <input type="text" placeholder="218" id
 Höhe (200-300) (Kein Komma nur Punkt): <input type="text" placeholder="288" id="input4" name="input4"><br>
 Beschreibung: <input type="text" placeholder="Enthält Sprudel" id="input5" name="input5"><br>
 Kategorie: <select id="input6" name="input6">
-    <option>Kalte Getränke ohne Alkohol</option>
-    <option>Kalte Getränke mit Alkohol</option>
-    <option>Warme Getränke ohne Alkohol</option>
-    <option>Warme Getränke mit Alkohol</option>
-    <option>Essen</option>
+    <option value="1">Kalte Getränke ohne Alkohol</option>
+    <option value="2">Kalte Getränke mit Alkohol</option>
+    <option value="3">Warme Getränke ohne Alkohol</option>
+    <option value="4">Warme Getränke mit Alkohol</option>
+    <option value="5">Essen</option>
 </select><br>
 Kindermodus: <select id="input7" name="input7">
     <option selected>Ja</option>
