@@ -6,8 +6,7 @@ $nr3 = mysqli_num_rows($nr_result3);
 if ($nr3 == 0) {
   header('location: ../index.php');
 }
-?>
-<?php
+
 // Initialize the session
 session_start();
  
@@ -46,6 +45,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
+    <?php
+    $snowflakeModuleQuery = "SELECT * FROM `module` WHERE `name` = 'Schneeflocken' and `status` = 'on'";
+    $snowflakeModuleResult = mysqli_query($link, $snowflakeModuleQuery);
+    $snowflakeModuleRows = mysqli_num_rows($snowflakeModuleResult);
+    if ($snowflakeModuleRows == 1) {
+      require_once "../designs/snow.php";
+    }
+    ?>
+
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",

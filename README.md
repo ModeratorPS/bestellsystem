@@ -11,7 +11,7 @@
 Lege den Ordner **bestellen** auf deinen Webserver.
 ### 1.2 Setup Datenbank / Website
 Besuche nun deine Website unter:<br>
-**www.deine_domain.de**/bestellen/<br>
+**www.deine_domain.de**/bestellen/setup/<br>
 Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
 ![alt text](setup_1.png)<br>
 **DB_HOST:** Die Host Adresse deines Hosts.<br>
@@ -37,6 +37,6 @@ Besuche diese Website erst, wenn du das Setup abgeschlossen hast!<br>
 Die Admin Seite findest du unter http://**deine_domain.de**/bestellen/admin/index.php<br>
 Logge dich dort mit deinem Passwort ein!<br>
 ## 3. Show Site Setup
-Tutorial kommt bald!
+Die Bestellanzeige kannst du unter http://**deine_domain.de**/bestellen/show/show.php finden<br>
 #### Viel Spaß beim nutzen vom System!
 #### Fragen kannst du hier stellen: https://discord.gg/c848xy7JfE

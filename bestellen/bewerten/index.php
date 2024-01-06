@@ -75,7 +75,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </style>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="keywords" content="​Author&amp;apos;s cake and desserts for your holiday, ​Few words about myself, ​Catalog, How We Work, Facts &amp;amp; Questions, ​​Best Choice, ​Make an order">
     <meta name="description" content="">
     <title>Bestellen</title>
@@ -87,6 +87,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <meta name="generator" content="Nicepage 4.13.4, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+    
+    <?php
+    $snowflakeModuleQuery = "SELECT * FROM `module` WHERE `name` = 'Schneeflocken' and `status` = 'on'";
+    $snowflakeModuleResult = mysqli_query($link, $snowflakeModuleQuery);
+    $snowflakeModuleRows = mysqli_num_rows($snowflakeModuleResult);
+    if ($snowflakeModuleRows == 1) {
+      require_once "../designs/snow.php";
+    }
+    ?>
     
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
@@ -330,4 +339,5 @@ while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
             });
         });
     </script>
+
 </body></html><img src="" wid height="" alt="">

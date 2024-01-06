@@ -273,7 +273,7 @@
     <meta property="og:type" content="website">
   </head>
   <body class="u-body u-xl-mode">
-      <section class="u-clearfix u-palette-3-light-3 u-section-1" id="sec-8f5b">
+      <section class="u-clearfix u-section-1" id="sec-8f5b">
       <div class="progress-track">
         <br><br>
 <?php

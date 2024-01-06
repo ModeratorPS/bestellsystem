@@ -18,5 +18,5 @@ while ($num_row > 0) {
 echo $id;
 
 $query = "INSERT INTO `bestellungen` (`Name`, `Bestellung`, `ID`, `Status`, `total`, `cart`) VALUES ('$name $tisch', '$produkte', '$id', '0', '$total', '$cart');";
-$q = mysqli_query($link, $query);
+mysqli_query($link, $query);
 ?>

@@ -1,6 +1,6 @@
 <?php
-// Initialize the session
 session_start();
+require_once "../config/config.php";
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="de"><head>
@@ -177,7 +177,7 @@ session_start();
                     var rabattBetrag = total * rabattInDezimal;
 
                     // Den Endpreis berechnen
-                    var total = total - rabattBetrag;
+                    total = total - rabattBetrag;
                     total = total.toFixed(2)
                     if (total < 0.00) {
                       total = 0.00
@@ -187,7 +187,7 @@ session_start();
                         url: 'send-order.php?name='+name.value+'&total='+total+'&tisch='+tisch+'&produkte='+products+'&cart='+string_cart,
                         success: function(data) {
                         $('.result').html(data);
-                        window.location = "bestellt-abgeschlossenn.php?id="+data.toString();
+                          window.location = "bestellt-abgeschlossenn.php?id="+data.toString();
                         }
                     });
                 }
@@ -245,7 +245,7 @@ session_start();
     <meta name="generator" content="Nicepage 4.13.4, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
-    
+
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",
@@ -254,6 +254,16 @@ session_start();
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Bestellen">
     <meta property="og:type" content="website">
+
+    <?php
+    $snowflakeModuleQuery = "SELECT * FROM `module` WHERE `name` = 'Schneeflocken' and `status` = 'on'";
+    $snowflakeModuleResult = mysqli_query($link, $snowflakeModuleQuery);
+    $snowflakeModuleRows = mysqli_num_rows($snowflakeModuleResult);
+    if ($snowflakeModuleRows == 1) {
+      require_once "../designs/snow.php";
+    }
+    ?>
+
   </head>
   <body class="u-body u-xl-mode"><header class="u-clearfix u-header u-header" id="sec-03fb"><div class="u-clearfix u-sheet u-sheet-1">
         <nav class="u-align-left u-menu u-menu-dropdown u-menu-hamburger u-offcanvas u-menu-1" data-responsive-from="XL">
@@ -309,8 +319,6 @@ if ($nr3 != 0) {
               <div class="u-container-align-left u-container-style u-layout-cell u-size-30 u-layout-cell-1">
                 <div class="u-container-layout u-container-layout-1">
 <?php
-require_once "../config/config.php";
-
 if($_SESSION["loggedin"] === true){
   $style = 'readonly style="background-color: #E2E2E2;"';
 } else {
@@ -552,7 +560,7 @@ if ($num_rows > 0) {
             </div>
           </div>
         </div>
-      </div>
+      </div><br><br><br><br><br>
     </section>
     <div class="fixed-bar" id="fixedBar">
       <button id="btn" style="background-color: #D6D6D6; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1" disabled onclick="checkout()">Einkaufswagen ist leer</button><br><br><br><br>
