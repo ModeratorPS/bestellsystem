@@ -29,6 +29,41 @@ if ($_SESSION["loggedin_admin"] !== true) {
     color: white;
 }
 </style>
+<script>
+  let extra = [];
+  function addToExtra() {
+    var select_extra = document.getElementById("select_extra");
+    let name = prompt("Name der Erweiterung:")
+    extra.push(name)
+    var option = document.createElement("option");
+    option.text = name + " löschen";
+    option.value = name;
+    option.selected = true;
+    select_extra.add(option);
+  }
+  function removeFromExtra(erweiterung) {
+    const index = extra.findIndex(item => item === erweiterung);
+    if (index !== -1) {
+      const removedItem = extra.splice(index, 1)[0];
+    }
+    var selectobject = document.getElementById("select_extra");
+    for (var i=0; i<selectobject.length; i++) {
+      if (selectobject.options[i].value == erweiterung) {
+        selectobject.remove(i);
+      }
+    }
+  }
+  function change() {
+    var select_extra = document.getElementById("select_extra");
+    if (select_extra.value == "new") {
+      addToExtra()
+    } else {
+      if (select_extra.value == "") return;
+      removeFromExtra(select_extra.value)
+    }
+    select_extra.value = "";
+  }
+</script>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
@@ -114,6 +149,10 @@ Kindermodus: <select id="input7" name="input7">
 Tassengrößen auswahlmöglichkeit: <select id="input8" name="input8">
     <option selected>Ja</option>
     <option>Nein</option>
+</select><br>
+Extra: <select id="select_extra" name="select_extra" onchange="change()">
+  <option selected disabled value="empty"></option>
+  <option value="new">Neues Extra hinzufügen</option>
 </select><br>
 Anzahl (-1 für Unendlich): <input type="number" placeholder="100" id="input9" name="input9" required=""><br>
 time (in Minuten): <input type="number" placeholder="2" id="input11" name="input11" required=""><br>
