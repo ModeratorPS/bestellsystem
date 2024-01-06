@@ -1,5 +1,6 @@
 # Bestellsystem V3.3.0
 
+!!! BILD ist NICHT aktuell !!! wird mit der nächsten Version angepasst
 ![site-home](https://user-images.githubusercontent.com/26382876/225888162-ec5a5d3a-80c0-403b-9d44-6430c618b179.png)
 
 ## 1. Setup
