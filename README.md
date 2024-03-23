@@ -1,5 +1,4 @@
 # Bestellsystem V3.4.0
-
 ![site-home](bestellseite.png)
 
 ![site-home](accountseite.png)
@@ -40,4 +39,4 @@ Logge dich dort mit deinem Passwort ein!<br>
 ## 3. Show Site Setup
 Die Bestellanzeige kannst du unter http://**deine_domain.de**/bestellen/show/show.php finden<br>
 #### Viel Spaß beim nutzen vom System!
-#### Fragen kannst du hier stellen: https://discord.gg/htr5JHV7FD oder unter der E-Mail Adresse moderatorps@gmail.com
+#### Fragen kannst du hier stellen: https://discord.gg/c848xy7JfE
