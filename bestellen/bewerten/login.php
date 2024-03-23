@@ -23,6 +23,7 @@ require_once "../config/config.php";
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
+$bewerten_rang = "";
 
 if(isset($_COOKIE["login_cookie"])){
   $saved_token = $_COOKIE["login_cookie"];
@@ -35,36 +36,37 @@ if(isset($_COOKIE["login_cookie"])){
       $_SESSION["loggedin"] = true;
       $_SESSION["id"] = $row["id"];
       $_SESSION["username"] = $row["username"];
+      if (($row["bewerten_rang"] = "Admin") | ($row["bewerten_rang"] = "Team")) {
+        $_SESSION["loggedin_admin"] = true;
+      }
       header("Location: ../index.php");
     }
   } else {
     setcookie("login_cookie", "", time() - 1);
   }
 }
-
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
     // Check if username is empty
     if(empty(trim($_POST["username"]))){
         $username_err = "Bitte gebe einen Nutzernamen ein!";
     } else{
         $username = trim($_POST["username"]);
     }
-    
+
     // Check if password is empty
     if(empty(trim($_POST["password"]))){
         $password_err = "Bitte gebe dein Passwort ein!";
     } else{
         $password = trim($_POST["password"]);
     }
-    
+
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, username, password FROM users WHERE username = ?";
-        
+        $sql = "SELECT id, username, password, bewerten_rang FROM users WHERE username = ?";
+
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
@@ -80,16 +82,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){                    
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $bewerten_rang);
                     if(mysqli_stmt_fetch($stmt)){
                         if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
                             session_start();
-                            
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                            
+                            $_SESSION["username"] = $username;
+                            if (($row["bewerten_rang"] = "Admin") | ($row["bewerten_rang"] = "Team")) {
+                              $_SESSION["loggedin_admin"] = true;
+                            }                           
                             
                             if(isset($_POST["rememberme"])){
                               $token = bin2hex(random_bytes(16));
@@ -131,9 +135,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_close($stmt);
         }
     }
-    
-    // Close connection
-    mysqli_close($link);
 }
 ?>
 
@@ -221,7 +222,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       require_once "../designs/snow.php";
     }
     ?>
-    
+
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",

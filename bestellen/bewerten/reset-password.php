@@ -6,8 +6,6 @@ $nr3 = mysqli_num_rows($nr_result3);
 if ($nr3 == 0) {
   header('location: ../index.php');
 }
-?>
-<?php
 // Initialize the session
 session_start();
  
@@ -16,9 +14,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
- 
-// Include config file
-require_once "../config/config.php";
  
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";
@@ -73,9 +68,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_close($stmt);
         }
     }
-    
-    // Close connection
-    mysqli_close($link);
 }
 ?>
 

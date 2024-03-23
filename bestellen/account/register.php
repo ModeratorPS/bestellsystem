@@ -17,7 +17,7 @@ $username_err = $mail_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+    
     if(empty(trim($_POST["mail"]))){
         $mail_err = "Bitte gebe eine E-Mail Adresse an!";
     } else{
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_close($stmt);
         }
     }
-
+    
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Bitte gebe einen Nutzernamen ein!";
@@ -106,9 +106,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($mail_err) && empty($confirm_password_err)){
-
+        
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, mail, bewerten_rang) VALUES (?, ?, ?, '0')";
+        $sql = "INSERT INTO users (username, password, mail, bewerten_rang) VALUES (?, ?, ?, 'Mitglied')";
         
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -118,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_mail = $mail;
-            
+
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
@@ -126,14 +126,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             } else{
                 echo "Oops! Leider ist ein Fehler unterlaufen! Bitte versuche es später erneut!";
             }
-
+            
             // Close statement
             mysqli_stmt_close($stmt);
         }
     }
-    
-    // Close connection
-    mysqli_close($link);
 }
 ?>
 

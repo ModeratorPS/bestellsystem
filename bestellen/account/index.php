@@ -98,6 +98,9 @@ foreach($lines as $line) {
         <p class="u-text u-text-default u-text-1"><?php require_once "../config/config.php"; echo $RESTAURANT_NAME; ?></p><?php
 echo '<a href="logout.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Logout</a>';
 echo '<a href="reset-password.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Passwort ändern</a>';
+if ($_SESSION["loggedin_admin"] === true) {
+  echo '<a href="../admin/index.php" style="background-color: #FF4343; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Admin Portal</a>';
+}
 ?>
       </div></header>
 <?php
@@ -165,7 +168,7 @@ if ($nr3 == 0) {
   echo "display: none; visibility: hidden";
 }
 ?>>
-  <legend>Dein Rang</legend>
+  <legend>Bewerten</legend>
   <?php
 require_once "../config/config.php";
 $besonders == "False";
@@ -173,92 +176,21 @@ $usern = $_SESSION['username'];
 $sql_rang = "SELECT * FROM `users` WHERE `username` = \"$usern\"";
 $result = mysqli_query($link, $sql_rang);
 while($zeile2 = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
-  $team = False;
   if ($zeile2['bewerten_rang'] == 'Admin') {
-    $rang_icon = '<img src="../role_icons/Admin.png" height="25" width="25">';
-    $color = '#d83f3f';
-    $team = True;
-  } else if ($zeile2['bewerten_rang'] == 'Chef') {
-    $rang_icon = '<img src="../role_icons/Chef2.png" height="25" width="25">';
-    $color = '#ff2e4c';
-    $team = True;
-  } else if ($zeile2['bewerten_rang'] == 'Developer') {
-    $rang_icon = '<img src="../role_icons/Developer2.png" height="25" width="25">';
-    $color = '#1facbd';
-    $team = True;
-  } else if ($zeile2['bewerten_rang'] == 'Manager') {
-    $rang_icon = '<img src="../role_icons/Manager.png" height="25" width="25">';
-    $color = '#115bec';
-    $team = True;
-  } else if ($zeile2['bewerten_rang'] == 'Moderator') {
-    $rang_icon = '<img src="../role_icons/Moderator.png" height="25" width="25">';
-    $color = '#4b96dc';
-    $team = True;
-  } else if ($zeile2['bewerten_rang'] == 'Supporter') {
-    $rang_icon = '<img src="../role_icons/Supporter.png" height="25" width="25">';
-    $color = '#4b96dc';
-    $team = True;
-  } else if ($zeile2['bewerten_rang'] == '') {
-    $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
+    $rang_icon = '<img src="../icons/admin.png" height="25" width="25">';
+    $color = '#ff6c60';
+    $rang = 'Admin';
+  } else if ($zeile2['bewerten_rang'] == 'Team') {
+    $rang_icon = '<img src="../icons/team.png" height="25" width="25">';
+    $color = '#7daff5';
+    $rang = 'Team';
+  } else {
+    $rang_icon = '<img src="../icons/user.png" height="25" width="25">';
     $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 1) {
-    $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 3) {
-    $rang_icon = '<img src="../role_icons/2.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 5) {
-    $rang_icon = '<img src="../role_icons/4.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 7) {
-    $rang_icon = '<img src="../role_icons/6.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 9) {
-    $rang_icon = '<img src="../role_icons/8.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 11) {
-    $rang_icon = '<img src="../role_icons/10.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 13) {
-    $rang_icon = '<img src="../role_icons/12.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 15) {
-    $rang_icon = '<img src="../role_icons/14.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 17) {
-    $rang_icon = '<img src="../role_icons/16.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 19) {
-    $rang_icon = '<img src="../role_icons/18.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] <= 21) {
-    $rang_icon = '<img src="../role_icons/20.png" height="25" width="25">';
-    $color = 'black';
-  } else if ($zeile2['bewerten_rang'] >= 22) {
-    $rang_icon = '<img src="../role_icons/22+.png" height="25" width="25">';
-    $color = 'black';
-  }
-  $rang = $zeile2['bewerten_rang'];
-  if ($rang == '') {
-    $rang = 0;
-  }
-  $nr_0 = "SELECT * FROM `module` WHERE `name` = 'Aufgaben' and `status` = 'on'";
-  $nr_result0 = mysqli_query($link, $nr_0);
-  $nr0 = mysqli_num_rows($nr_result0);
-  if ($nr0 == 0) {
-    if ($team == False) {
-      $team = True;
-      $rang = "User";
-      $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
-      $color = 'black';
-    }
+    $rang = 'Mitglied';
   }
 }
-if ($team == True) {
-  echo '<h3 style="color: '.$color.';">'.$rang_icon.' <strong>'.$rang.'</strong></h3>';
-} else {
-  echo '<h3 style="color: '.$color.';">'.$rang_icon.' <strong>Level '.$rang.'</strong></h3>';
-}
+echo '<h3 style="color: '.$color.';">'.$rang_icon.' <strong>'.$rang.'</strong></h3>';
 $rang_icon = '';
 $color = '';
 $rang = ''; 
@@ -275,103 +207,63 @@ if ($nr3 != 0) {
 ?>
 <fieldset <?php
 require_once "../config/config.php";
-$nr_a = "SELECT * FROM `aufgaben`";
-$nr_result = mysqli_query($link, $nr_a);
-$nr = mysqli_num_rows($nr_result);
-if ($nr == 0) {
-  echo "display: none; visibility: hidden";
-}
-$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Aufgaben' and `status` = 'on'";
+$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Achievements' and `status` = 'on'";
 $nr_result2 = mysqli_query($link, $nr_2);
 $nr2 = mysqli_num_rows($nr_result2);
 if ($nr2 == 0) {
   echo "display: none; visibility: hidden";
 }
 ?>>
-  <legend>Aufgaben</legend>
-    <h4>Für jede Aufgabe steigt dein Rang um 2 Level!</h4>
+  <legend>Achievements</legend>
     <?php
     require_once "../config/config.php";
     $user = $_SESSION["username"];
-    $sql1 = "SELECT * FROM `aufgaben`";
+    $sql1 = "SELECT * FROM `achievement`";
     $db_erg1 = mysqli_query( $link, $sql1 );
     while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC)) {
-      $nr = $zeile['nr'] - 1;
-      $res1 = 'aufgabe_'.$nr;
-      if ($zeile['nr'] == 1) {
-        $blured = 'Nein';
-      } else {
-        $blured_sql = "SELECT * FROM `users` WHERE `username` = \"$user\" AND `$res1` = 'True'";
-        $blured_result = mysqli_query( $link, $blured_sql );
-        $Blured_rows = mysqli_num_rows($blured_result);
-        if ($Blured_rows == 0) {
-          $blured = 'Ja';
+      $color = "";
+      $icon = "";
+      $text = "";
+      if ($zeile["type"] == "Bewerten") {
+        $sql_check = "SELECT * FROM `bewertungen` WHERE `username` = \"$user\"";
+        $sql_check_result = mysqli_query( $link, $sql_check );
+        $sql_check_num_rows = mysqli_num_rows( $sql_check_result );
+        if ( $sql_check_num_rows >= $zeile["count"]) {
+          $color = "#67FF60";
+          $icon = $zeile["icon_normal"];
+          $text = "Schreibe ".strval($zeile["count"])." Bewertungen!<br> Du hast ".strval($zeile["count"])."/".strval($zeile["count"])." geschrieben!";
         } else {
-          $blured = 'Nein';
+          $color = "#FF6060";
+          $icon = $zeile["icon_glitch"];
+          $text = "Schreibe ".strval($zeile["count"])." Bewertungen!<br> Du hast ".$sql_check_num_rows."/".strval($zeile["count"])." geschrieben!";
         }
       }
-      if ($blured == 'Ja') {
-        echo '<fieldset style="filter: blur(5px);">';
-      } else {
-        echo '<fieldset>';
-      }
-      echo '<legend>Aufgabe '.$zeile['nr'].'</legend>';
-      if ($zeile['aufgabe'] == 'Bewertungen') {
-        echo '<h3>Schreibe '.$zeile['count'].' Bewertungen!</h3>';
-        $user = $_SESSION["username"];
-        $aufgabe_sql = "SELECT * FROM `bewertungen` WHERE `username` = \"$user\"";
-        $aufgabe_result = mysqli_query( $link, $aufgabe_sql );
-        $num_rows = mysqli_num_rows($aufgabe_result);
-        echo '<h4 style="color: gray;">'.$num_rows.' / '.$zeile['count'].'</h4>';
-        if ($num_rows >= $zeile['count']) {
-          $act = 'aufgabe_'.$zeile['nr'];
-          $aufgabe_check_sql = "SELECT * FROM `users` WHERE `username` = \"$user\" AND `$act` = 'True'";
-          $aufgabe_check_result = mysqli_query( $link, $aufgabe_check_sql );
-          $num_rows_check = mysqli_num_rows($aufgabe_check_result);
-          if ($num_rows_check == 1) {
-            echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Abgeholt</a>';
-          } else {
-            if ($blured == 'Nein') {
-              echo '<a href="aufgabe-erledigt.php?nr='.$zeile['nr'].'" class="u-btn u-button-style">Abholen</a>';
-            } else {
-              echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Aufgabe noch nicht erledigt</a>';
-            }
-          }
+      else if ($zeile["type"] == "Bestellen") {
+        $sql_check = "SELECT * FROM `bestellungen` WHERE `Name` LIKE \"%$user%\"";
+        $sql_check_result = mysqli_query( $link, $sql_check );
+        $sql_check_num_rows = mysqli_num_rows( $sql_check_result );
+        if ( $sql_check_num_rows >= $zeile["count"]) {
+          $color = "#67FF60";
+          $icon = $zeile["icon_normal"];
+          $text = "Bestelle ".strval($zeile["count"])." mal!<br> Du hast ".strval($zeile["count"])."/".strval($zeile["count"])." mal bestellt!";
         } else {
-          echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Aufgabe noch nicht erledigt</a>';
-        }
-      } else if ($zeile['aufgabe'] == 'Bestellungen') {
-        echo '<h3>Bestelle '.$zeile['count'].' mal!</h3>';
-        $user = $_SESSION["username"];
-        $aufgabe_sql = "SELECT * FROM `bestellungen` WHERE `Name` LIKE '%$user%'";
-        $aufgabe_result = mysqli_query( $link, $aufgabe_sql );
-        $num_rows = mysqli_num_rows($aufgabe_result);
-        echo '<h4 style="color: gray;">'.$num_rows.' / '.$zeile['count'].'</h4>';
-        if ($num_rows >= $zeile['count']) {
-          $act = 'aufgabe_'.$zeile['nr'];
-          $aufgabe_check_sql = "SELECT * FROM `users` WHERE `username` = \"$user\" AND `$act` = 'True'";
-          $aufgabe_check_result = mysqli_query( $link, $aufgabe_check_sql );
-          $num_rows_check = mysqli_num_rows($aufgabe_check_result);
-          if ($num_rows_check == 1) {
-            echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Abgeholt</a>';
-          } else {
-            if ($blured == 'Nein') {
-              echo '<a href="aufgabe-erledigt.php?nr='.$zeile['nr'].'" class="u-btn u-button-style">Abholen</a>';
-            } else {
-              echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Aufgabe noch nicht erledigt</a>';
-            }
-          }
-        } else {
-          echo '<a disabled style="background-color: gray" class="u-btn u-button-style">Aufgabe noch nicht erledigt</a>';
+          $color = "#FF6060";
+          $icon = $zeile["icon_glitch"];
+          $text = "Bestelle ".strval($zeile["count"])." mal!<br> Du hast ".$sql_check_num_rows."/".strval($zeile["count"])." mal bestellt!";
         }
       }
+      echo '<fieldset style="display: inline-block; border-color: '.$color.'; border-style: solid;">';
+      echo '<legend style="color: '.$color.'">'.$zeile['achievement'].'</legend>';
+      echo '<img src="../icons/'.$icon.'" height="50" width="50"> '.$text;
       echo '</fieldset>';
-      $blured = '';
+      if ($zeile["br"]) {
+        echo "<br>";
+      }
     }
     ?>
 </fieldset><?php
 require_once "../config/config.php";
-$nr_a = "SELECT * FROM `aufgaben`";
+$nr_a = "SELECT * FROM `achievement`";
 $nr_result = mysqli_query($link, $nr_a);
 $nr = mysqli_num_rows($nr_result);
 $nr = 0;
@@ -380,7 +272,7 @@ if ($nr != 0) {
   echo "<br>";
   $already = True;
 }
-$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Aufgaben' and `status` = 'on'";
+$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Achievements' and `status` = 'on'";
 $nr_result2 = mysqli_query($link, $nr_2);
 $nr2 = mysqli_num_rows($nr_result2);
 if ($nr2 != 0) {
@@ -389,15 +281,9 @@ if ($nr2 != 0) {
   }
 }
 ?>
-<fieldset <?php
+<fieldset style="display: none; visibility: hidden" <?php
 require_once "../config/config.php";
-$nr_a = "SELECT * FROM `aufgaben`";
-$nr_result = mysqli_query($link, $nr_a);
-$nr = mysqli_num_rows($nr_result);
-if ($nr == 0) {
-  echo "display: none; visibility: hidden";
-}
-$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Aufgaben' and `status` = 'on'";
+$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Achievements' and `status` = 'on'";
 $nr_result2 = mysqli_query($link, $nr_2);
 $nr2 = mysqli_num_rows($nr_result2);
 if ($nr2 == 0) {
@@ -434,7 +320,7 @@ if ($nr2 == 0) {
     ?>
 </fieldset><?php
 require_once "../config/config.php";
-$nr_a = "SELECT * FROM `aufgaben`";
+$nr_a = "SELECT * FROM `achievement`";
 $nr_result = mysqli_query($link, $nr_a);
 $nr = mysqli_num_rows($nr_result);
 $nr = 0;
@@ -443,22 +329,13 @@ if ($nr != 0) {
   echo "<br>";
   $already = True;
 }
-$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Aufgaben' and `status` = 'on'";
+$nr_2 = "SELECT * FROM `module` WHERE `name` = 'Achievements' and `status` = 'on'";
 $nr_result2 = mysqli_query($link, $nr_2);
 $nr2 = mysqli_num_rows($nr_result2);
 if ($nr2 != 0) {
   if ($already != True) {
     echo "<br>";
   }
-}
-?>
-<?php
-require_once "../config/config.php";
-$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Tische' and `status` = 'on'";
-$nr_result3 = mysqli_query($link, $nr_3);
-$nr3 = mysqli_num_rows($nr_result3);
-if ($nr3 == 0) {
-  return;
 }
 ?>
 <fieldset>
@@ -472,7 +349,7 @@ require_once "../config/config.php";
 
 $user = $_SESSION["username"];
 
-$sql1 = "SELECT * FROM `bestellungen` WHERE `Name` = \"$user\"";
+$sql1 = "SELECT * FROM `bestellungen` WHERE `Name` LIKE \"%$user%\"";
 $db_erg1 = mysqli_query( $link, $sql1 );
 
 $num_rows = mysqli_num_rows($db_erg1);
@@ -491,8 +368,7 @@ while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
 {
   echo "<tr>";
   echo "<td> ". $zeile['Bestellung'] . " </td>";
-  echo '<td> <a style="color: orange;" href="tracking-senden.php?id='.$zeile['ID'].'">Tracken</a> </td>';
-  echo '<td> <a style="color: gray;" href="bestellen-tgsenden.php?name='. $zeile['Name'] .'&mail='. $zeile['E-Mail'] .'&bestellung='. $zeile['Bestellung'] .'&zusatz='. $zeile['Zusatz'] .'&id='. $zeile['ID'] .'&tg='. $zeile['TG'] .'">Erneut Bestellen</a> </td>';
+  echo '<td> <a style="color: orange;" href="../tracking/tracking-senden.php?id='.$zeile['ID'].'">Tracken</a> </td>';
   echo "</tr>";
 }
 echo "</table>";

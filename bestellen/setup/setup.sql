@@ -2,8 +2,7 @@
 -- version 4.9.7deb1
 -- https://www.phpmyadmin.net/
 --
--- Erstellungszeit: 06. Jan 2024 um 12:29
--- Server-Version: 8.0.34-26
+-- Server-Version: 8.0.36-28
 -- PHP-Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -16,6 +15,34 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Tabellenstruktur für Tabelle `achievement`
+--
+
+CREATE TABLE `achievement` (
+  `achievement` longtext CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
+  `count` int NOT NULL,
+  `type` longtext CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
+  `icon_glitch` longtext COLLATE latin1_german2_ci NOT NULL,
+  `icon_normal` longtext COLLATE latin1_german2_ci NOT NULL,
+  `br` tinyint(1) NOT NULL DEFAULT '0',
+  `id` int NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci;
+
+--
+-- Daten für Tabelle `achievement`
+--
+
+INSERT INTO `achievement` (`achievement`, `count`, `type`, `icon_glitch`, `icon_normal`, `br`, `id`) VALUES
+('Bewerter Level 1', 5, 'Bewerten', 'rate0_glitch.png', 'rate0.png', 0, 1),
+('Bewerter Level 2', 10, 'Bewerten', 'rate1_glitch.png', 'rate1.png', 0, 2),
+('Bewerter Level 3', 15, 'Bewerten', 'rate2_glitch.png', 'rate2.png', 0, 3),
+('Bewerter Level 4', 20, 'Bewerten', 'rate3_glitch.png', 'rate3.png', 1, 4),
+('Besteller Level 1', 5, 'Bestellen', 'order0_glitch.png', 'order0.png', 0, 5),
+('Besteller Level 2', 10, 'Bestellen', 'order1_glitch.png', 'order1.png', 0, 6),
+('Besteller Level 3', 15, 'Bestellen', 'order2_glitch.png', 'order2.png', 0, 7),
+('Besteller Level 4', 20, 'Bestellen', 'order3_glitch.png', 'order3.png', 1, 8);
 
 -- --------------------------------------------------------
 
@@ -49,18 +76,6 @@ CREATE TABLE `Artikelliste` (
   `lager` mediumtext CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
   `time` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
   `tp` int NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `aufgaben`
---
-
-CREATE TABLE `aufgaben` (
-  `aufgabe` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `count` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `nr` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci;
 
 -- --------------------------------------------------------
@@ -141,7 +156,7 @@ INSERT INTO `module` (`name`, `information`, `status`, `error`, `settings`, `abh
 ('Alert', 'Ein Modul, welches dich Informiert, zeitlich etwas zu tun!', 'off', '', 'alert.php', '', 1),
 ('Account', 'Ein Modul, welches daf&uuml;r sorgt, dass User einen Account erstellen k&ouml;nnen und besondere Features nutzen zu k&ouml;nnen!', 'off', '', '', '', 2),
 ('Bewerten', 'Durch dieses Modul, k&ouml;nnen User das Restaurant bewerten!', 'error', 'Folgendes Modul muss aktiviert sein: Account', '', 'Account', 3),
-('Aufgaben', 'Durch dieses Modul, k&ouml;nnen User Aufgaben bewerten, um den Bewerten Rang zu erh&ouml;hen!', 'error', 'Folgendes Modul muss aktiviert sein: Bewerten', 'aufgabe-add.php', 'Bewerten', 4),
+('Achievements', 'Durch dieses Modul, k&ouml;nnen User Achievements erledigen und Belohnungen freischalten!', 'error', 'Folgendes Modul muss aktiviert sein: Bewerten', 'achievement.php', 'Bewerten', 4),
 ('Tischnummer', 'F&uuml;ge zu den Bestellungen und den Checkout die Eingabe Tischnummer hinzu!', 'off', '', 'tischnummer.php', '', 5),
 ('E-Mail verify', 'Der User muss seine E-Mail beim ersten login bestätigen mit einem zugesendeten PIN', 'error', 'Folgendes Modul muss aktiviert sein: Account', '', 'Account', 6),
 ('Schneeflocken', 'Dieses Modul erlaubt dir, Schneeflocken auf der Website schneien zu lassen.', 'off', '', '', '', 8);
@@ -208,23 +223,18 @@ CREATE TABLE `users` (
   `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
   `rememberToken` longtext CHARACTER SET latin1 COLLATE latin1_german2_ci,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `bewerten_rang` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_1` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_2` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_3` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_4` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_5` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_6` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_7` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_8` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_9` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_10` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `aufgabe_11` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL
+  `bewerten_rang` varchar(999) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci;
 
 --
 -- Indizes der exportierten Tabellen
 --
+
+--
+-- Indizes für die Tabelle `achievement`
+--
+ALTER TABLE `achievement`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indizes für die Tabelle `Artikelliste`
@@ -260,6 +270,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT für exportierte Tabellen
 --
+
+--
+-- AUTO_INCREMENT für Tabelle `achievement`
+--
+ALTER TABLE `achievement`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT für Tabelle `Artikelliste`

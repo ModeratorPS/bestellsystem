@@ -1,5 +1,5 @@
 <?php
-// Initialize the session 
+// Initialize the session
 session_start();
  
 // Include config file
@@ -176,14 +176,23 @@ if ($mail != "") {
       var previousInput = currentInput.previousElementSibling;
       var keyCode = event.keyCode || event.which;
 
-      if (keyCode === 8 && currentInput.value.length === 0 && previousInput != null) {
-        previousInput.focus();
-      }
-
       if (nextInput != null) {
         if (currentInput.value.length === maxLength) {
           nextInput.focus();
         }
+      }
+
+      checkVerificationCode();
+    }
+
+    function focusPreviousInput(currentInput) {
+      var maxLength = parseInt(currentInput.getAttribute("maxlength"));
+      var nextInput = currentInput.nextElementSibling;
+      var previousInput = currentInput.previousElementSibling;
+      var keyCode = event.keyCode || event.which;
+
+      if (keyCode === 8 && currentInput.value.length === 0 && previousInput != null) {
+        previousInput.focus();
       }
 
       checkVerificationCode();
@@ -300,12 +309,12 @@ foreach($lines as $line) {
                     if ($confirmed === false) {
                         echo '<h5>E-Mail <strong>'.$_GET['mail'].'</strong> verifizieren</h5>
                         <div class="verification-code">
-                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" autofocus />
-                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" />
-                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" />
-                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" />
-                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" />
-                            <input type="text" maxlength="1" onkeyup="focusNextInput(this); checkCodeOnComplete(event)" />
+                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" autofocus onkeydown="focusPreviousInput(this)" />
+                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" onkeydown="focusPreviousInput(this)" />
+                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" onkeydown="focusPreviousInput(this)" />
+                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" onkeydown="focusPreviousInput(this)" />
+                            <input type="text" maxlength="1" onkeyup="focusNextInput(this)" onkeydown="focusPreviousInput(this)" />
+                            <input type="text" maxlength="1" onkeyup="focusNextInput(this); checkCodeOnComplete(event)" onkeydown="focusPreviousInput(this)" />
                         </div>';
                         if ($sended === false) {
                           echo "<br><br><a class='menu_button' href='verify-mail.php?mail=".$mail."&sendagain=1'>Mail erneut senden</a>";

@@ -106,25 +106,9 @@ while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
 ?> 
 </select><br>
 Neuer Rang: <select id="input2" name="input2">
-<option value="0">Level 0</option>
-<option value="2">Level 2</option>
-<option value="4">Level 4</option>
-<option value="6">Level 6</option>
-<option value="8">Level 8</option>
-<option value="10">Level 10</option>
-<option value="12">Level 12</option>
-<option value="14">Level 14</option>
-<option value="16">Level 16</option>
-<option value="18">Level 18</option>
-<option value="20">Level 20</option>
-<option value="22">Level 22+</option>
-<option value="Chef">Chef</option>
+<option value="Mitglied">Mitglied</option>
+<option value="Team">Team</option>
 <option value="Admin">Admin</option>
-<option value="Developer">Developer</option>
-<option value="Manager">Manager</option>
-<option value="Moderator">Moderator</option>
-<option value="Supporter">Supporter</option>
-</select><br>
 <input class="menu_button" type="submit" name="submit" id="submit">
 </form>
 

@@ -18,6 +18,7 @@ session_start();
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
     
     <?php
+    require_once "../config/config.php";
     $snowflakeModuleQuery = "SELECT * FROM `module` WHERE `name` = 'Schneeflocken' and `status` = 'on'";
     $snowflakeModuleResult = mysqli_query($link, $snowflakeModuleQuery);
     $snowflakeModuleRows = mysqli_num_rows($snowflakeModuleResult);
@@ -76,7 +77,7 @@ if ($nr3 != 0) {
   if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     echo '<a href="../account/login.php" style="background-color: #FF613D; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account Login</a>';
   } else {
-    echo '<a href="../config/index.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
+    echo '<a href="../account/index.php" style="background-color: #5B67FF; font-size: 20px" class="u-btn u-button-style u-text u-text-default u-text u-text-default u-text-1">Account</a>';
   }
 }
 ?>

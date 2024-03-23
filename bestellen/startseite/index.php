@@ -18,7 +18,7 @@ if ($DB_HOST == "") {
     <meta name="description" content="">
     <title>Startseite</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
-<link rel="stylesheet" href="../Startseite.css" media="screen">
+    <link rel="stylesheet" href="../Startseite.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="../nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 4.13.4, nicepage.com">
@@ -121,7 +121,6 @@ while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
 }
 mysqli_free_result( $db_erg1 );
 ?>
-    <br><a href="../kids/index.php" style="background-color: lightgreen;" class="u-btn u-btn-submit u-button-style"><img src="../images/kids.png" width="35" height="30">  Im Kinder Modus Bestellen</a><br>
     <br><a href="../bestellen/index.php" class="u-btn u-btn-submit u-button-style">Jetzt Bestellen</a>
     <br>
 <h1>Unsere Artikel:</h1><br>
