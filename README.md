@@ -1,6 +1,8 @@
-# Bestellsystem V3.0.0
+# Bestellsystem V3.4.0
 
-![site-home](https://user-images.githubusercontent.com/26382876/225888162-ec5a5d3a-80c0-403b-9d44-6430c618b179.png)
+![site-home](bestellseite.png)
+
+![site-home](accountseite.png)
 
 ## 1. Setup
 > **Note**<br>
@@ -25,7 +27,6 @@ Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
 **MAIL_RECHNUNG:** Denke dir eine E-Mail Adresse aus, mit welcher die Rechnungen gesendet werden. (z.b. rechnung@restaurant.de)<br>
 **LINK_TRACKEN:** Schreibe in dieses Feld folgendes rein: (Ersetze das Fette nur mit deiner Domain) http://**deine_domain.de**/bestellen/tracking/index.php<br>
 **LINK_BEWERTEN:** Schreibe in dieses Feld folgendes rein: (Ersetze das Fette nur mit deiner Domain) http://**deine_domain.de**/bestellen/bewerten/index.php<br>
-**PASSWORT_ADMIN:** Denke dir ein Admin Passwort aus und schreibe es dort hinein.<br>
 **SHOW_lightgreen:** Bis wann soll beim Show Bildschirm, die Wartezeit Hellgrün sein. (Schreibe hier eine Zahl in Minuten rein)<br>
 **SHOW_darkgreen:** Bis wann soll beim Show Bildschirm, die Wartezeit Dunkelgrün sein. (Schreibe hier eine Zahl in Minuten rein)<br>
 **SHOW_orange:** Bis wann soll beim Show Bildschirm, die Wartezeit Orange sein. (Schreibe hier eine Zahl in Minuten rein)<br>

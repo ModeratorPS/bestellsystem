@@ -217,78 +217,17 @@ while($zeile = mysqli_fetch_array( $result, MYSQLI_ASSOC)) {
     $team = False;
     while($zeile2 = mysqli_fetch_array( $result2, MYSQLI_ASSOC)) {
       if ($zeile2['bewerten_rang'] == 'Admin') {
-        $rang_icon = '<img src="../role_icons/Admin.png" height="25" width="25">';
-        $color = '#d83f3f';
-        $team = True;
-      } else if ($zeile2['bewerten_rang'] == 'Chef') {
-        $rang_icon = '<img src="../role_icons/Chef2.png" height="25" width="25">';
-        $color = '#ff2e4c';
-        $team = True;
-      } else if ($zeile2['bewerten_rang'] == 'Developer') {
-        $rang_icon = '<img src="../role_icons/Developer2.png" height="25" width="25">';
-        $color = '#1facbd';
-        $team = True;
-      } else if ($zeile2['bewerten_rang'] == 'Manager') {
-        $rang_icon = '<img src="../role_icons/Manager.png" height="25" width="25">';
-        $color = '#115bec';
-        $team = True;
-      } else if ($zeile2['bewerten_rang'] == 'Moderator') {
-        $rang_icon = '<img src="../role_icons/Moderator.png" height="25" width="25">';
-        $color = '#4b96dc';
-        $team = True;
-      } else if ($zeile2['bewerten_rang'] == 'Supporter') {
-        $rang_icon = '<img src="../role_icons/Supporter.png" height="25" width="25">';
-        $color = '#4b96dc';
-        $team = True;
-      } else if ($zeile2['bewerten_rang'] == '') {
-        $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
+        $rang_icon = '<img src="../icons/admin.png" height="25" width="25">';
+        $color = '#ff6c60';
+        $rang = 'Admin';
+      } else if ($zeile2['bewerten_rang'] == 'Team') {
+        $rang_icon = '<img src="../icons/team.png" height="25" width="25">';
+        $color = '#7daff5';
+        $rang = 'Team';
+      } else {
+        $rang_icon = '<img src="../icons/user.png" height="25" width="25">';
         $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 1) {
-        $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 3) {
-        $rang_icon = '<img src="../role_icons/2.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 5) {
-        $rang_icon = '<img src="../role_icons/4.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 7) {
-        $rang_icon = '<img src="../role_icons/6.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 9) {
-        $rang_icon = '<img src="../role_icons/8.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 11) {
-        $rang_icon = '<img src="../role_icons/10.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 13) {
-        $rang_icon = '<img src="../role_icons/12.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 15) {
-        $rang_icon = '<img src="../role_icons/14.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 17) {
-        $rang_icon = '<img src="../role_icons/16.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 19) {
-        $rang_icon = '<img src="../role_icons/18.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] <= 21) {
-        $rang_icon = '<img src="../role_icons/20.png" height="25" width="25">';
-        $color = 'black';
-      } else if ($zeile2['bewerten_rang'] >= 22) {
-        $rang_icon = '<img src="../role_icons/22+.png" height="25" width="25">';
-        $color = 'black';
-      }
-    }
-    $nr_0 = "SELECT * FROM `module` WHERE `name` = 'Aufgaben' and `status` = 'on'";
-    $nr_result0 = mysqli_query($link, $nr_0);
-    $nr0 = mysqli_num_rows($nr_result0);
-    if ($nr0 == 0) {
-      if ($team == False) {
-        $rang = "User";
-        $rang_icon = '<img src="../role_icons/0.png" height="25" width="25">';
-        $color = 'black';
+        $rang = 'Mitglied';
       }
     }
     mysqli_free_result($result2);

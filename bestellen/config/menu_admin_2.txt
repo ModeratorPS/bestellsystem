@@ -9,5 +9,5 @@
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="clear.php">Bestellungen zurücksetzen</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="../setup/index.php">Setup / Resetup</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="artikel-lager.php">Lager bearbeiten</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="rang.php">Bewerten Rang bearbeiten</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="rang.php">Account Rang bearbeiten</a>
 </li>

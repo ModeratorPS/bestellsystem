@@ -1,6 +1,6 @@
 <?php
 require_once "../config/config.php";
-$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
+$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Account' and `status` = 'on'";
 $nr_result3 = mysqli_query($link, $nr_3);
 $nr3 = mysqli_num_rows($nr_result3);
 if ($nr3 == 0) {
@@ -17,12 +17,12 @@ $username_err = $mail_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+    
     if(empty(trim($_POST["mail"]))){
         $mail_err = "Bitte gebe eine E-Mail Adresse an!";
     } else{
         // Prepare a select statement
-        $sql = "SELECT mail FROM users WHERE username = ?";
+        $sql = "SELECT mail FROM users WHERE mail = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_close($stmt);
         }
     }
-
+    
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Bitte gebe einen Nutzernamen ein!";
@@ -108,8 +108,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($mail_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, mail, bewerten_rang) VALUES (?, ?, ?, '0')";
-         
+        $sql = "INSERT INTO users (username, password, mail, bewerten_rang) VALUES (?, ?, ?, 'Mitglied')";
+        
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $param_mail);
@@ -118,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             $param_mail = $mail;
-            
+
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Redirect to login page
@@ -126,14 +126,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             } else{
                 echo "Oops! Leider ist ein Fehler unterlaufen! Bitte versuche es später erneut!";
             }
-
+            
             // Close statement
             mysqli_stmt_close($stmt);
         }
     }
-    
-    // Close connection
-    mysqli_close($link);
 }
 ?>
 
@@ -163,7 +160,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta charset="utf-8">
     <meta name="keywords" content="​Author&amp;apos;s cake and desserts for your holiday, ​Few words about myself, ​Catalog, How We Work, Facts &amp;amp; Questions, ​​Best Choice, ​Make an order">
     <meta name="description" content="">
-    <title>Bestellen</title>
+    <title>Account erstellen</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
 <link rel="stylesheet" href="../Bestellen.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
@@ -181,7 +178,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       require_once "../designs/snow.php";
     }
     ?>
-    
+
     <script type="application/ld+json">{
         "@context": "http://schema.org",
         "@type": "Organization",

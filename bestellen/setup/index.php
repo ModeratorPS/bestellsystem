@@ -1,3 +1,10 @@
+<?php
+require_once "../config/config.php";
+if ($DB_HOST != "") {
+    echo "Dieses System wurde bereits eingerichtet! Bitte bearbeite die CONFIG manuell im Dateisystem unter <strong>/bestellen/config/config.php</strong>!";
+    return;
+}
+?>
 <form action="setup-first-senden.php" method="post" name="form">
 <input value="<?php require_once "../config/config.php"; echo $DB_HOST; ?>" type="text" placeholder="DB_HOST" id="input1" name="input1" required=""><br>
 <input value="<?php require_once "../config/config.php"; echo $DB_USER; ?>" type="text" placeholder="DB_USER" id="input2" name="input2" required=""><br>
@@ -9,7 +16,6 @@
 <input value="<?php require_once "../config/config.php"; echo $MAIL_RECHNUNG; ?>" type="text" placeholder="MAIL_RECHNUNG" id="input8" name="input8" required=""><br>
 <input value="<?php require_once "../config/config.php"; echo $LINK_TRACKEN; ?>" type="text" placeholder="LINK_TRACKEN" id="input9" name="input9" required=""><br>
 <input value="<?php require_once "../config/config.php"; echo $LINK_BEWERTEN; ?>" type="text" placeholder="LINK_BEWERTEN" id="input10" name="input10" required=""><br>
-<input value="<?php require_once "../config/config.php"; echo $PASSWORT_ADMIN; ?>" type="text" placeholder="PASSWORT_ADMIN" id="input11" name="input11" required=""><br>
 <input value="<?php require_once "../config/config.php"; echo $SHOW_lightgreen; ?>" type="text" placeholder="SHOW_lightgreen" id="input12" name="input12" required=""><br>
 <input value="<?php require_once "../config/config.php"; echo $SHOW_darkgreen; ?>" type="text" placeholder="SHOW_darkgreen" id="input13" name="input13" required=""><br>
 <input value="<?php require_once "../config/config.php"; echo $SHOW_orange; ?>" type="text" placeholder="SHOW_orange" id="input14" name="input14" required=""><br>

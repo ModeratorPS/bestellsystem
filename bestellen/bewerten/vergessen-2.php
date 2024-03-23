@@ -34,6 +34,7 @@
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
     
     <?php
+    require_once "../config/config.php";
     $snowflakeModuleQuery = "SELECT * FROM `module` WHERE `name` = 'Schneeflocken' and `status` = 'on'";
     $snowflakeModuleResult = mysqli_query($link, $snowflakeModuleQuery);
     $snowflakeModuleRows = mysqli_num_rows($snowflakeModuleResult);
@@ -41,7 +42,7 @@
       require_once "../designs/snow.php";
     }
     ?>
-    
+
     <script type="application/ld+json">{
         "@context": "http://schema.org",
         "@type": "Organization",
@@ -117,7 +118,7 @@ foreach($lines as $line) {
                         $inhalt = '
                             <fieldset>
                             <legend>Passwort ändern</legend>
-                            <p>Klicke <a href="'. $LINK_BEWERTEN. 'vergessen-final.php?mail='. $input1 .'">hier</a> um deinn Passwort zu ändern</p>
+                            <p>Klicke <a href="'. $MAIL_NEWS_LINK. 'account/vergessen-final.php?mail='. $input1 .'">hier</a> um deinn Passwort zu ändern</p>
                             </fieldset>
                         ';
                         $header  = "MIME-Version: 1.0\r\n";

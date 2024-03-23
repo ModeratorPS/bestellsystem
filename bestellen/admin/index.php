@@ -128,8 +128,8 @@ if ($nr3 != 0) {
   }
 }
 ?>
-              <form action="logout.php">
-	    		      <button class="menu_button" type="submit">Logout</button>
+              <form action="../account/index.php">
+	    		      <button class="menu_button" type="submit">Account</button>
 	    	      </form><br>
               <form action="checkout.php">
 	    		      <button class="menu_button" type="submit">Checkout</button>

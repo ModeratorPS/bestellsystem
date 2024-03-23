@@ -9,5 +9,5 @@
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="clear.php" style="padding: 10px 20px;">Bestellungen zurücksetzen</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../setup/index.php" style="padding: 10px 20px;">Setup / Resetup</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="artikel-lager.php" style="padding: 10px 20px;">Lager bearbeiten</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="rang.php" style="padding: 10px 20px;">Bewerten Rang bearbeiten</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="rang.php" style="padding: 10px 20px;">Account Rang bearbeiten</a>
 </li>
