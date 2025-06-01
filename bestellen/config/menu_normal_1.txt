@@ -1,3 +1,4 @@
 <li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../startseite/index.php" style="padding: 10px 20px;">Startseite</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../bestellen/index.php" style="padding: 10px 20px;">Bestellen</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../bestellen/index.php" style="padding: 10px 20px;">Jetzt Bestellen</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="../tracking/index.php" style="padding: 10px 22px 10px 20px;">Jetzt Tracken</a>
 </li>

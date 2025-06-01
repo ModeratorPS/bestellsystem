@@ -1,11 +1,13 @@
-# Bestellsystem V3.4.0
+# Bestellsystem V4.0.0
 
-Willst du wissen, was als nächstes kommt?
-https://noble-fifth-2b4.notion.site/1516070899a94e69b5616b502bc7dcea?v=8488fd2b94494991ad5d5446dbc70674&pvs=4
+> **Warning**<br>
+> Dies ist die letzte Version vom Bestellsystem und die Entwicklung wurde eingestellt!
 
-![site-home](bestellseite.png)
-
-![site-home](accountseite.png)
+![site-home](screenshots/order_page_1.png)
+![site-home](screenshots/order_page_2.png)
+![site-home](screenshots/account_page.png)
+![site-home](screenshots/admin_page_1.png)
+![site-home](screenshots/admin_page_2.png)
 
 ## 1. Setup
 > **Note**<br>
@@ -15,32 +17,15 @@ https://noble-fifth-2b4.notion.site/1516070899a94e69b5616b502bc7dcea?v=8488fd2b9
 ### 1.1 Upload
 Lege den Ordner **bestellen** auf deinen Webserver.
 ### 1.2 Setup Datenbank / Website
-Besuche nun deine Website unter:<br>
-**www.deine_domain.de**/bestellen/setup/<br>
-Du wirst nun automatisch auf diese Seite weitergeleitet:<br>
-![alt text](setup_1.png)<br>
-**DB_HOST:** Die Host Adresse deines Hosts.<br>
-**DB_USER:** Dein Datenbank Nutzername.<br>
-**DB_PASSWORD:** Dein Datenbank Password.<br>
-**DB_NAME:** Der Name deiner Datenbank.<br>
-**RESTAURANT_NAME:** Der Name deines Restaurants.<br>
-**DB_NAME:** Der Name deiner Datenbank.<br>
-**MAIL_NEWS:** Denke dir eine E-Mail Adresse aus, mit welcher News gesendet werden. (z.b. news@restaurant.de)<br>
-**MAIL_NEWS_LINK:** Der Link zu der Startseite von deinem Restaurant. (z.b. http://**deine_domain.de**/bestellen/)<br>
-**MAIL_RECHNUNG:** Denke dir eine E-Mail Adresse aus, mit welcher die Rechnungen gesendet werden. (z.b. rechnung@restaurant.de)<br>
-**LINK_TRACKEN:** Schreibe in dieses Feld folgendes rein: (Ersetze das Fette nur mit deiner Domain) http://**deine_domain.de**/bestellen/tracking/index.php<br>
-**LINK_BEWERTEN:** Schreibe in dieses Feld folgendes rein: (Ersetze das Fette nur mit deiner Domain) http://**deine_domain.de**/bestellen/bewerten/index.php<br>
-**SHOW_lightgreen:** Bis wann soll beim Show Bildschirm, die Wartezeit Hellgrün sein. (Schreibe hier eine Zahl in Minuten rein)<br>
-**SHOW_darkgreen:** Bis wann soll beim Show Bildschirm, die Wartezeit Dunkelgrün sein. (Schreibe hier eine Zahl in Minuten rein)<br>
-**SHOW_orange:** Bis wann soll beim Show Bildschirm, die Wartezeit Orange sein. (Schreibe hier eine Zahl in Minuten rein)<br>
-**SHOW_darkorange:** Bis wann soll beim Show Bildschirm, die Wartezeit Dunkelorange sein. (Schreibe hier eine Zahl in Minuten rein)<br>
-**SHOW_red:** Bis wann soll beim Show Bildschirm, die Wartezeit Rot sein. (Schreibe hier eine Zahl in Minuten rein)
-> Alles über der Roten Zahl wird Dunkelrot!
+Bearbeite folgende Datei und füge dort deine Datenbankzugangsdaten ein:<br>
+**/bestellen/config/config.php**<br>
+Lade ebenfalls die Datei **database.sql** in deinem Datenbanksystem hoch, um die nötigen Tabellen zu importieren.
+Um einen Admin Account zu erstellen, befolge folgende Schritte:<br>
+1. Erstelle dir einen Account über die "Registrieren" Seite
+2. Gehe in dein Datenbanksystem und öffne die Tabelle **users**
+3. Finde die Zeile mit deinem Account und ändere dort in der Spalte "bewerten_rang" die Bezeichnung von "Mitglied" zu "Admin"
 ## 2. Admin
 Besuche diese Website erst, wenn du das Setup abgeschlossen hast!<br>
 Die Admin Seite findest du unter http://**deine_domain.de**/bestellen/admin/index.php<br>
-Logge dich dort mit deinem Passwort ein!<br>
-## 3. Show Site Setup
-Die Bestellanzeige kannst du unter http://**deine_domain.de**/bestellen/show/show.php finden<br>
+Logge dich dort mit deinem Admin Account ein!<br>
 #### Viel Spaß beim nutzen vom System!
-#### Fragen kannst du hier stellen: https://discord.gg/c848xy7JfE

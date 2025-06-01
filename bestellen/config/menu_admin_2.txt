@@ -1,13 +1,11 @@
-<li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.php">Startseite Admin</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="open.php">Open</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="close.php">Close</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="artikel-add.php">Artikel hinzufügen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="artikel-remove.php">Artikel löschen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="rabattcode-create.php">Rabattcode hinzufügen</a>
+<li class="u-nav-item"><a class="u-button-style u-nav-link" href="../startseite/index.php">Startseite</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.php">Startseite Admin</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="checkout.php">Checkout</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="open.php">Restaurant Öffnen</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="close.php">Restaurant Schließen</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="module.php">Module</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="artikel-management.php">Artikel Management</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="upload.php">Datei hochladen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="clear.php">Bestellungen zurücksetzen</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="../setup/index.php">Setup / Resetup</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="artikel-lager.php">Lager bearbeiten</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="rang.php">Account Rang bearbeiten</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="rabattcode.php">Rabattcode erstellen</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="account-management.php">Account Management</a>
 </li>

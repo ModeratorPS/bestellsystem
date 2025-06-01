@@ -1,53 +1,16 @@
 <?php
 session_start();
 if (($_SESSION["loggedin_admin"] !== true) | (!$_SESSION["loggedin_admin"])) {
-  header('location: ../index.php');
+    header('location: ../index.php');
 }
 require_once "../config/config.php";
-if ($_GET["upload"] == "true") {
-  $upload_folder = '../upload/';
-  $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME);
-  $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));
-  
-  $allowed_extensions = array('png', 'jpg', 'jpeg', 'gif');
-  if(!in_array($extension, $allowed_extensions)) {
-    die("Ungültige Dateiendung. Nur png, jpg, jpeg und gif-Dateien sind erlaubt");
-  }
-  
-  $max_size = 500000*1024; //500000 KB
-  if($_FILES['datei']['size'] > $max_size) {
-    die("Bitte keine Dateien größer 500000kb hochladen");
-  }
-
-  if(function_exists('exif_imagetype')) {
-    $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
-    $detected_type = exif_imagetype($_FILES['datei']['tmp_name']);
-    if(!in_array($detected_type, $allowed_types)) {
-      die("Nur der Upload von Bilddateien ist gestattet");
-    }
-  }
-  
-  $new_path = $upload_folder.$filename.'.'.$extension;
-
-  if(file_exists($new_path)) {
-    $id = 1;
-    do {
-      $new_path = $upload_folder.$filename.'_'.$id.'.'.$extension;
-      $id++;
-    } while(file_exists($new_path));
-  }
-
-  move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
-  $type = "apple_on";
-  $info = 'Bild erfolgreich hochgeladen! <a href="artikel-management.php?link='.$new_path.'">Artikel mit diesem Bild erstellen</a><br><br>';
-}
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="description" content="">
-    <title>📷 - Datei hochladen</title>
+    <title>user</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
     <link rel="stylesheet" href="../theme.css" media="screen">
     <link rel="stylesheet" href="style.css" media="screen">
@@ -117,11 +80,7 @@ if ($_GET["upload"] == "true") {
     <section class="u-clearfix u-section-1" id="carousel_9c88">
       <div class="infinite u-container-align-center u-container-style u-custom-color-2 u-expanded-width u-group u-shape-rectangle u-group-1">
         <div class="u-container-layout u-valign-middle u-container-layout-1">
-          <div class="<?php echo $type; ?>" style="padding: 23px 0px 0px 20px"><?php echo $info; ?></div><br>
-          <form action="upload.php?upload=true" method="post" enctype="multipart/form-data">
-            <input type="file" name="datei"><br>
-            <input type="submit" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1" value="Hochladen">
-          </form>
+          HIER KOMMT DIE WEBSITE
         </div>
       </div>
     </section>

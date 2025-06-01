@@ -1,34 +1,15 @@
 <?php
+session_start();
+if (($_SESSION["loggedin_admin"] !== true) | (!$_SESSION["loggedin_admin"])) {
+  header('location: ../index.php');
+}
 require_once "../config/config.php";
 
 $query = "DELETE FROM `status_rst` WHERE `Status` = \"Geöffnet\"";
 $result = mysqli_query($link, $query); 
 
-if( $result )
- {
- 	echo '1: Gesendet!';
- }
- else
- {
- 	echo '1: Query Failed';
- }
-
 $query2 = "INSERT INTO `status_rst` (`Status`) VALUES ('Geschlossen');"; 
 $result2 = mysqli_query($link, $query2); 
 
-if( $result2 )
- {
- 	echo '2: Gesendet!';
- }
- else
- {
- 	echo '2: Query Failed';
- }
+echo "<script>alert('Restaurant geschlossen!'); window.location.href = 'index.php';</script>";
 ?>
-<html>
-	<head>
-        <title>Eingabe-Info</title>
-        <link rel="stylesheet" href="style_system.css">
-    </head>
-	<a href="index.php">back to Home</a>
-</html>

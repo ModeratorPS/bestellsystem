@@ -1,118 +1,105 @@
+<?php
+session_start();
+if (($_SESSION["loggedin_admin"] !== true) | (!$_SESSION["loggedin_admin"])) {
+  header('location: ../index.php');
+}
+require_once "../config/config.php";
+if ($_GET['name'] != "") {
+  $name = str_replace("%20", " ", $_GET['name']);
+  $sql_delete = "DELETE FROM `checkout` WHERE `name` = \"$input1\""; 
+  $sql_delete = mysqli_query($link, $sql_delete); 
+  header("location: index.php");
+}
+?>
 <!DOCTYPE html>
-<style>
-.menu_button {
-    color: orange;
-    background-color: white;
-    padding: 8px 16px;
-    font-size: 16px;
-    display: flex;
-    font-weight: 600;
-    border-radius: 2px;
-    cursor: pointer;
-    box-shadow: 2px 0px 8px rgb(0 0 0 / 20%);
-    border: unset;
-}
-
-.menu_button:hover {
-    background-color: rgb(155, 153, 153);
-    color: white;
-}
-</style>
 <html style="font-size: 16px;" lang="de"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="​Author&amp;apos;s cake and desserts for your holiday, ​Few words about myself, ​Catalog, How We Work, Facts &amp;amp; Questions, ​​Best Choice, ​Make an order">
     <meta name="description" content="">
-    <title>Admin Checkout</title>
+    <title>💵 - Checkout</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
-<link rel="stylesheet" href="../Bestellen.css" media="screen">
+    <link rel="stylesheet" href="../theme.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
     <script class="u-script" type="text/javascript" src="../jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="../nicepage.js" defer=""></script>
-    <meta name="generator" content="Nicepage 4.13.4, nicepage.com">
+    <meta name="generator" content="Nicepage 6.13.8, nicepage.com">
+    <meta name="referrer" content="origin">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
-    
-    
     
     <script type="application/ld+json">{
-    "@context": "http://schema.org",
-    "@type": "Organization",
-    "name": "Restaurant"
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "Site2"
 }</script>
-    <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Bestellen">
+    <meta name="theme-color" content="#3745f9">
+    <meta property="og:title" content="user">
+    <meta property="og:description" content="">
     <meta property="og:type" content="website">
-  </head>
-  <body class="u-body u-xl-mode"><header class="u-clearfix u-header u-header" id="sec-03fb"><div class="u-clearfix u-sheet u-sheet-1">
-        <nav class="u-align-left u-menu u-menu-dropdown u-menu-hamburger u-offcanvas u-menu-1" data-responsive-from="XL">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="de"><header class="u-clearfix u-header" id="sec-35c2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><div class="u-clearfix u-sheet u-valign-middle-xs u-sheet-1">
+        <nav class="u-align-left u-font-size-14 u-menu u-menu-hamburger u-nav-spacing-25 u-offcanvas u-menu-1" data-responsive-from="XL">
           <div class="menu-collapse">
-            <a class="u-button-style u-nav-link" href="#" style="padding: 4px 0px; font-size: calc(1em + 8px);">
-              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-5c50"></use></svg>
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-5c50" x="0px" y="0px" viewBox="0 0 302 302" style="enable-background:new 0 0 302 302;" xml:space="preserve" class="u-svg-content"><g><rect y="36" width="302" height="30"></rect><rect y="236" width="302" height="30"></rect><rect y="136" width="302" height="30"></rect>
+            <a class="u-button-style u-nav-link" href="#" style="padding: 7px 9px; font-size: calc(1em + 14.2969px);">
+              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-7b92"></use></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-7b92" x="0px" y="0px" viewBox="0 0 302 302" style="enable-background:new 0 0 302 302;" xml:space="preserve" class="u-svg-content"><g><rect y="36" width="302" height="30"></rect><rect y="236" width="302" height="30"></rect><rect y="136" width="302" height="30"></rect>
 </g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
             </a>
           </div>
-          <div class="u-nav-container">
+          <div class="u-custom-menu u-nav-container">
             <ul class="u-nav u-unstyled u-nav-1"><?php
-$lines = file('../config/menu_admin_1.txt');
-foreach($lines as $line) {
-  echo $line;
-}
-?></ul>
+            $lines = file('../config/menu_admin_1.txt');
+            foreach($lines as $line) {
+              echo $line;
+            }
+            ?></ul>
           </div>
-          <div class="u-nav-container-collapse">
-            <div class="u-align-center u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+          <div class="u-custom-menu u-nav-container-collapse">
+            <div class="u-align-center u-container-style u-inner-container-layout u-opacity u-opacity-90 u-sidenav u-white">
               <div class="u-inner-container-layout u-sidenav-overflow">
-                <div class="u-menu-close"></div>
+                <div class="u-menu-close u-menu-close-1"></div>
+                <?php
+                $sql_login_button = "SELECT * FROM `module` WHERE `name` = 'Account' and `status` = 'on'";
+                $sql_login_result = mysqli_query($link, $sql_login_button);
+                $sql_login_result_num_rows = mysqli_num_rows($sql_login_result);
+                if ($sql_login_result_num_rows != 0) {
+                  if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+                    $redirect = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                    echo '<a href="../auth/login.php?redirect='.$redirect.'" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1">ANMELDEN</a>';
+                  } else {
+                    echo '<a href="../account/index.php" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1">ACCOUNT</a>';
+                  }
+                }
+                ?>
                 <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><?php
-$lines = file('../config/menu_admin_2.txt');
-foreach($lines as $line) {
-  echo $line;
-}
-?></ul>
+                $lines = file('../config/menu_admin_2.txt');
+                foreach($lines as $line) {
+                  echo $line;
+                }
+                ?></ul>
               </div>
             </div>
-            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-30"></div>
           </div>
         </nav>
-        <p class="u-text u-text-default u-text-1"><?php require_once "../config/config.php"; echo $RESTAURANT_NAME; ?></p>
+        <h2 class="u-align-center u-text u-text-1"><?php echo $RESTAURANT_NAME; ?></h2>
       </div></header>
-    <section class="u-clearfix u-grey-5 u-section-2" id="carousel_a603">
-      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
-          <div class="u-layout">
-
-
-<?php
-require_once "../config/config.php";
-
-$sql1 = "SELECT * FROM `checkout`";
-$db_erg1 = mysqli_query( $link, $sql1 );
-if ( ! $db_erg1 )
-{
-  die('Ungültige Abfrage: ' . mysqli_error());
-}
-echo '<table border="1">';
-while ($zeile = mysqli_fetch_array( $db_erg1, MYSQLI_ASSOC))
-{
-    echo "<tr>";
-    echo "<td>". $zeile['name'] . "</td>";
-    echo "<td>". str_replace('"', "", $zeile['Euro']) . " Euro</td>";
-    echo '<td><form action="checkout-senden.php?name='. $zeile['name'] .'" method="post" name="form">';
-    echo '<input type="submit" name="submit" id="submit" class="menu_button" value="Bezahlt">';
-    echo '</form></td>';
-    echo '<td><form action="checkout-family.php?name='. $zeile['name'] .'" method="post" name="form">';
-    echo '<input type="submit" name="submit" id="submit" class="menu_button" value="Family Checkout">';
-    echo '</form></td>';
-    echo "</tr>";
-}
-echo "</table>";
-mysqli_free_result( $db_erg1 );
-?>
-<br><a href="index.php">Zurück</a>
-
-</div>
-          </div>
+    <section class="u-clearfix u-section-1" id="carousel_9c88">
+      <div class="infinite u-container-align-center u-container-style u-custom-color-2 u-expanded-width u-group u-shape-rectangle u-group-1">
+        <div class="u-container-layout u-valign-middle u-container-layout-1">
+          <?php
+          $sql_checkout = "SELECT * FROM `checkout`";
+          $sql_checkout_result = mysqli_query( $link, $sql_checkout );
+          foreach ($sql_checkout_result as $row) {
+            echo "<tr>";
+            echo "<td>". $row['name'] . "</td>";
+            echo "<td>". str_replace('"', "", $row['Euro']) . " Euro</td>";
+            echo '<td><a action="checkout.php?name='. $row['name'] .'" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1">BEZAHLT</a></td>';
+            echo '<td><a action="checkout-family.php?name='. $row['name'] .'" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1">FAMILY CHECKOUT</a></td>';
+            echo "</tr>";
+          }
+          echo "</table>";
+          mysqli_free_result( $db_erg1 );
+          ?>
         </div>
       </div>
     </section>

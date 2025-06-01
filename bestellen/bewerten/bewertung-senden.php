@@ -1,9 +1,9 @@
 <?php
 require_once "../config/config.php";
-$nr_3 = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
-$nr_result3 = mysqli_query($link, $nr_3);
-$nr3 = mysqli_num_rows($nr_result3);
-if ($nr3 == 0) {
+$sql_modul = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
+$sql_modul_result = mysqli_query($link, $sql_modul);
+$sql_modul_num_rows = mysqli_num_rows($sql_modul_result);
+if ($sql_modul_num_rows == 0) {
   header('location: ../index.php');
 }
 

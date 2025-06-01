@@ -1,45 +1,70 @@
 <?php
 session_start();
-if (($_SESSION["loggedin_admin"] !== true) | (!$_SESSION["loggedin_admin"])) {
-  header('location: ../index.php');
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+  header("location: ../login.php");
+  exit;
 }
 require_once "../config/config.php";
-if ($_GET["upload"] == "true") {
-  $upload_folder = '../upload/';
-  $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME);
-  $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));
-  
-  $allowed_extensions = array('png', 'jpg', 'jpeg', 'gif');
-  if(!in_array($extension, $allowed_extensions)) {
-    die("Ungültige Dateiendung. Nur png, jpg, jpeg und gif-Dateien sind erlaubt");
-  }
-  
-  $max_size = 500000*1024; //500000 KB
-  if($_FILES['datei']['size'] > $max_size) {
-    die("Bitte keine Dateien größer 500000kb hochladen");
-  }
+$sql_modul = "SELECT * FROM `module` WHERE `name` = 'Bewerten' and `status` = 'on'";
+$sql_modul_result = mysqli_query($link, $sql_modul);
+$sql_modul_num_rows = mysqli_num_rows($sql_modul_result);
+if ($sql_modul_num_rows == 0) {
+  header('location: ../index.php');
+}
 
-  if(function_exists('exif_imagetype')) {
-    $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
-    $detected_type = exif_imagetype($_FILES['datei']['tmp_name']);
-    if(!in_array($detected_type, $allowed_types)) {
-      die("Nur der Upload von Bilddateien ist gestattet");
+// Define variables and initialize with empty values
+$new_password = $confirm_password = "";
+$new_password_err = $confirm_password_err = "";
+ 
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+    // Validate new password
+    if(empty(trim($_POST["new_password"]))){
+        $new_password_err = "Please enter the new password.";     
+    } elseif(strlen(trim($_POST["new_password"])) < 6){
+        $new_password_err = "Password must have atleast 6 characters.";
+    } else{
+        $new_password = trim($_POST["new_password"]);
     }
-  }
-  
-  $new_path = $upload_folder.$filename.'.'.$extension;
+    
+    // Validate confirm password
+    if(empty(trim($_POST["confirm_password"]))){
+        $confirm_password_err = "Please confirm the password.";
+    } else{
+        $confirm_password = trim($_POST["confirm_password"]);
+        if(empty($new_password_err) && ($new_password != $confirm_password)){
+            $confirm_password_err = "Password did not match.";
+        }
+    }
+        
+    // Check input errors before updating the database
+    if(empty($new_password_err) && empty($confirm_password_err)){
+        // Prepare an update statement
+        $sql = "UPDATE users SET password = ? WHERE id = ?";
+        
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "si", $param_password, $param_id);
+            
+            // Set parameters
+            $param_password = password_hash($new_password, PASSWORD_DEFAULT);
+            $param_id = $_SESSION["id"];
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                // Password updated successfully. Destroy the session, and redirect to login page
+                session_destroy();
+                header("location: login.php");
+                exit();
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
 
-  if(file_exists($new_path)) {
-    $id = 1;
-    do {
-      $new_path = $upload_folder.$filename.'_'.$id.'.'.$extension;
-      $id++;
-    } while(file_exists($new_path));
-  }
-
-  move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
-  $type = "apple_on";
-  $info = 'Bild erfolgreich hochgeladen! <a href="artikel-management.php?link='.$new_path.'">Artikel mit diesem Bild erstellen</a><br><br>';
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -47,7 +72,7 @@ if ($_GET["upload"] == "true") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="description" content="">
-    <title>📷 - Datei hochladen</title>
+    <title>🪪 - Passwort ändern</title>
     <link rel="stylesheet" href="../nicepage.css" media="screen">
     <link rel="stylesheet" href="../theme.css" media="screen">
     <link rel="stylesheet" href="style.css" media="screen">
@@ -56,6 +81,15 @@ if ($_GET["upload"] == "true") {
     <meta name="generator" content="Nicepage 6.13.8, nicepage.com">
     <meta name="referrer" content="origin">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    
+    <?php
+    $snowflakeModuleQuery = "SELECT * FROM `module` WHERE `name` = 'Schneeflocken' and `status` = 'on'";
+    $snowflakeModuleResult = mysqli_query($link, $snowflakeModuleQuery);
+    $snowflakeModuleRows = mysqli_num_rows($snowflakeModuleResult);
+    if ($snowflakeModuleRows == 1) {
+      require_once "../designs/snow.php";
+    }
+    ?>
     
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
@@ -78,7 +112,7 @@ if ($_GET["upload"] == "true") {
           </div>
           <div class="u-custom-menu u-nav-container">
             <ul class="u-nav u-unstyled u-nav-1"><?php
-            $lines = file('../config/menu_admin_1.txt');
+            $lines = file('../config/menu_normal_1.txt');
             foreach($lines as $line) {
               echo $line;
             }
@@ -102,7 +136,7 @@ if ($_GET["upload"] == "true") {
                 }
                 ?>
                 <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><?php
-                $lines = file('../config/menu_admin_2.txt');
+                $lines = file('../config/menu_normal_2.txt');
                 foreach($lines as $line) {
                   echo $line;
                 }
@@ -117,10 +151,22 @@ if ($_GET["upload"] == "true") {
     <section class="u-clearfix u-section-1" id="carousel_9c88">
       <div class="infinite u-container-align-center u-container-style u-custom-color-2 u-expanded-width u-group u-shape-rectangle u-group-1">
         <div class="u-container-layout u-valign-middle u-container-layout-1">
-          <div class="<?php echo $type; ?>" style="padding: 23px 0px 0px 20px"><?php echo $info; ?></div><br>
-          <form action="upload.php?upload=true" method="post" enctype="multipart/form-data">
-            <input type="file" name="datei"><br>
-            <input type="submit" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1" value="Hochladen">
+          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+          <h3>Passwort bearbeiten</h3> 
+            <div class="form-group">
+              <label>Neues Passwort</label>
+              <input type="password" name="new_password" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" <?php if ($new_password_err != "") { echo 'style="background-color: #FF8787;"'; } else { echo 'style="background-color: #E2E2E2;"'; } ?> value="<?php echo $new_password; ?>">
+              <label style="color: #FF8787;"><strong><?php echo $new_password_err; ?></strong></label>
+            </div>
+            <div class="form-group">
+              <label>Passwort erneut eingeben</label>
+              <input type="password" name="confirm_password" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" <?php if ($confirm_password_err != "") { echo 'style="background-color: #FF8787;"'; } else { echo 'style="background-color: #E2E2E2;"'; } ?>>
+              <label style="color: #FF8787;"><strong><?php echo $confirm_password_err; ?></strong></label>
+            </div>
+            <div class="form-group">
+              <input type="submit" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1" value="BEARBEITEN"><br>
+              <a class="btn btn-link ml-2" href="index.php">Abbrechen</a>
+            </div>
           </form>
         </div>
       </div>

@@ -1,3 +1,3 @@
 <?php
-header('location: startseite/');
+header('location: startseite/index.php');
 ?>

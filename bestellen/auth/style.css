@@ -1,0 +1,70 @@
+/* Stil für die Checkbox-Container */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333; /* Textfarbe */
+}
+
+/* Verstecke die ursprüngliche Checkbox */
+.checkbox-container input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Stil für das benutzerdefinierte Checkbox-Element */
+.custom-checkbox {
+  width: 25px;
+  height: 25px;
+  background-color: #fff; /* Weißer Hintergrund */
+  border: 1px solid #ccc; /* Grauer Rand */
+  border-radius: 5px; /* Abrundung des Kontrollkästchens */
+  margin-right: 10px; /* Abstand zwischen Checkbox und Text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Stil für das benutzerdefinierte Checkbox-Element, wenn es aktiviert ist */
+.checkbox-container input[type="checkbox"]:checked + .custom-checkbox::before {
+  content: '\2713'; /* Grüner Haken (Checkmark) */
+  color: #4CAF50; /* Grüne Farbe für den Haken */
+}
+
+/* Stil für das benutzerdefinierte Checkbox-Element, wenn es nicht aktiviert ist */
+.checkbox-container input[type="checkbox"]:not(:checked) + .custom-checkbox::before {
+  content: '\2718'; /* Rotes Kreuz (X) für nicht aktiviertes Kontrollkästchen */
+  color: red; /* Rote Farbe für das Kreuz */
+}
+
+.verification-code {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+
+.verification-code input[type="text"] {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  color: gray;
+}
+
+.verification-code.filled input[type="text"] {
+  color: gray;
+}
+
+.verification-code.valid input[type="text"] {
+  border-color: #78DE64;
+  color: #78DE64;
+}
+
+.verification-code.invalid input[type="text"] {
+  border-color: #DE6464;
+  color: #DE6464;
+}
