@@ -1,7 +1,6 @@
 # Bestellsystem V4.0.0
 
-> **Warning**<br>
-> Dies ist die letzte Version vom Bestellsystem und die Entwicklung wurde eingestellt!
+## Dies ist die letzte Version vom Bestellsystem und die Entwicklung wurde eingestellt!
 
 ![site-home](screenshots/order_page_1.png)
 ![site-home](screenshots/order_page_2.png)
